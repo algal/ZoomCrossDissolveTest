@@ -13,29 +13,71 @@
                         <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3lb-pg-B3h">
-                                <rect key="frame" x="20" y="20" width="72" height="37"/>
+                            <button opaque="NO" tag="100" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3lb-pg-B3h">
+                                <rect key="frame" x="20" y="65" width="72" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Go">
+                                <state key="normal" title="A">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="buttonPushed:" destination="2" eventType="touchUpInside" id="Fgw-EN-RA7"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="200" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Cde-6Y-Bfg">
+                                <rect key="frame" x="676" y="65" width="72" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="B">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="buttonPushed:" destination="2" eventType="touchUpInside" id="Y3v-Oj-Dfb"/>
+                                </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="o1_300x402.jpg" id="ZL0-wv-vWb">
-                                <rect key="frame" x="20" y="90" width="300" height="402"/>
+                                <rect key="frame" x="20" y="135" width="300" height="402"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="o2_150x201.jpg" id="DZx-Kq-kW2">
-                                <rect key="frame" x="598" y="90" width="150" height="201"/>
+                                <rect key="frame" x="598" y="135" width="150" height="201"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="iYD-z4-SBs">
+                                <rect key="frame" x="345" y="20" width="79" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="toggleAB:" destination="2" eventType="valueChanged" id="LkM-ks-57j"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Show A &amp; B targets" lineBreakMode="tailTruncation" minimumFontSize="10" id="gO8-0D-SY8">
+                                <rect key="frame" x="185" y="23" width="149" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="are-IW-wob">
+                                <rect key="frame" x="73" y="573" width="261" height="234"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="are-IW-wob" id="Xr6-7x-8Xc"/>
+                        <outlet property="imageViewA" destination="ZL0-wv-vWb" id="ZGz-Ra-DGy"/>
+                        <outlet property="imageViewB" destination="DZx-Kq-kW2" id="dJI-2s-lPY"/>
+                        <outlet property="switchAB" destination="iYD-z4-SBs" id="g1h-DR-3KT"/>
+                    </connections>
                 </viewController>
             </objects>
         </scene>
@@ -47,6 +89,12 @@
     <classes>
         <class className="ViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="imageViewA" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="imageViewB" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="switchAB" candidateClass="UISwitch"/>
+            </relationships>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

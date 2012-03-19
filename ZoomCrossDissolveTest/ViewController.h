@@ -10,4 +10,10 @@
 
 @interface ViewController : UIViewController
 
+
+@property (strong, nonatomic) IBOutlet UISwitch *switchAB;
+@property (strong, nonatomic) IBOutlet UIImageView *imageViewA;
+@property (strong, nonatomic) IBOutlet UIImageView *imageViewB;
+
+@property (strong, nonatomic) IBOutlet UIImageView *imageView;
 @end
