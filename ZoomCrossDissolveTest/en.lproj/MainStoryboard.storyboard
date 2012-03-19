@@ -20,10 +20,6 @@
                                     <action selector="toggleAB:" destination="2" eventType="valueChanged" id="LkM-ks-57j"/>
                                 </connections>
                             </switch>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="are-IW-wob">
-                                <rect key="frame" x="239" y="616" width="261" height="234"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <button opaque="NO" tag="100" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3lb-pg-B3h">
                                 <rect key="frame" x="20" y="65" width="72" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -84,6 +80,10 @@
                                     <action selector="buttonPushed:" destination="2" eventType="touchUpInside" id="NeO-3e-7Lh"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="are-IW-wob">
+                                <rect key="frame" x="239" y="616" width="261" height="234"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>

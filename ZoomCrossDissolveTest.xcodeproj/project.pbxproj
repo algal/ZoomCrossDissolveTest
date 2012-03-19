@@ -17,6 +17,7 @@
 		5E984F6D15177F1A00AFED27 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E984F6C15177F1A00AFED27 /* ViewController.m */; };
 		5E984F75151782BE00AFED27 /* o1_300x402.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5E984F73151782BE00AFED27 /* o1_300x402.jpg */; };
 		5E984F76151782BE00AFED27 /* o2_150x201.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5E984F74151782BE00AFED27 /* o2_150x201.jpg */; };
+		5E984F781517977900AFED27 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E984F771517977900AFED27 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		5E984F6C15177F1A00AFED27 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		5E984F73151782BE00AFED27 /* o1_300x402.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = o1_300x402.jpg; sourceTree = "<group>"; };
 		5E984F74151782BE00AFED27 /* o2_150x201.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = o2_150x201.jpg; sourceTree = "<group>"; };
+		5E984F771517977900AFED27 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E984F781517977900AFED27 /* QuartzCore.framework in Frameworks */,
 				5E984F5715177F1A00AFED27 /* UIKit.framework in Frameworks */,
 				5E984F5915177F1A00AFED27 /* Foundation.framework in Frameworks */,
 				5E984F5B15177F1A00AFED27 /* CoreGraphics.framework in Frameworks */,
@@ -71,6 +74,7 @@
 		5E984F5515177F1A00AFED27 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5E984F771517977900AFED27 /* QuartzCore.framework */,
 				5E984F5615177F1A00AFED27 /* UIKit.framework */,
 				5E984F5815177F1A00AFED27 /* Foundation.framework */,
 				5E984F5A15177F1A00AFED27 /* CoreGraphics.framework */,
