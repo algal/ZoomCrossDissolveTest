@@ -80,6 +80,18 @@
 
 -(IBAction)buttonPushed:(UIButton*)sender {
   
+  if (sender.tag == 100) {
+    self.imageView.frame = self.imageViewA.frame;
+    [self.view setNeedsLayout];
+  } else if (sender.tag == 200 ) {
+    self.imageView.frame = self.imageViewB.frame;
+    [self.view setNeedsLayout];
+  } else if (sender.tag == 300 ) {
+    self.imageView.frame = CGRectMake(239, 616, 261, 234);
+  } else {
+    NSLog(@"unrecognized");
+  }
+  
 }
 
 @end
