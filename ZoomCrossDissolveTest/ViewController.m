@@ -108,7 +108,7 @@
                      }];
 */    
 
-    // layer-based animation of position
+    // layer-based animation of position & cross-dissolve of contents
     // setup the animation
     UIImage * fromImage = self.imageView.image;
     UIImage * toImage = self.imageViewA.image;
