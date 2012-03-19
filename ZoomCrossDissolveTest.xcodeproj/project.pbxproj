@@ -22,14 +22,14 @@
 		5E984F5615177F1A00AFED27 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5E984F5815177F1A00AFED27 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5E984F5A15177F1A00AFED27 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		5E984F5E15177F1A00AFED27 /* ZoomCrossDissolveTest-Info.plist */ = {isa = PBXFileReference; path = "ZoomCrossDissolveTest-Info.plist"; sourceTree = "<group>"; };
+		5E984F5E15177F1A00AFED27 /* ZoomCrossDissolveTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZoomCrossDissolveTest-Info.plist"; sourceTree = "<group>"; };
 		5E984F6015177F1A00AFED27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5E984F6215177F1A00AFED27 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		5E984F6415177F1A00AFED27 /* ZoomCrossDissolveTest-Prefix.pch */ = {isa = PBXFileReference; path = "ZoomCrossDissolveTest-Prefix.pch"; sourceTree = "<group>"; };
-		5E984F6515177F1A00AFED27 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		5E984F6415177F1A00AFED27 /* ZoomCrossDissolveTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZoomCrossDissolveTest-Prefix.pch"; sourceTree = "<group>"; };
+		5E984F6515177F1A00AFED27 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5E984F6615177F1A00AFED27 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		5E984F6915177F1A00AFED27 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		5E984F6B15177F1A00AFED27 /* ViewController.h */ = {isa = PBXFileReference; path = ViewController.h; sourceTree = "<group>"; };
+		5E984F6B15177F1A00AFED27 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		5E984F6C15177F1A00AFED27 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
