@@ -75,16 +75,16 @@
 #pragma mark helper
 
 +(void) animateLayer:(CALayer*) theLayer 
-           fromImage:(UIImage*) fromImage
              toImage:(UIImage*) toImage
        toNewPosition:(CGPoint) toPosition
          toNewBounds:(CGRect) toBounds
 {
     // cache start values
-  // (we just take the old image as a function parameter, since 
-  // to read it off the layer we need to do redraw it it which is awkward)
   CGPoint oldPos = theLayer.position;
   CGRect oldBounds = theLayer.bounds;
+  UIGraphicsBeginImageContext(theLayer.bounds.size);
+  [theLayer renderInContext:UIGraphicsGetCurrentContext()];
+  UIImage *oldImage = UIGraphicsGetImageFromCurrentImageContext();
   
   // update model values to end values, after preventing implicit animation of these properties
   [CATransaction setDisableActions:YES];
@@ -106,7 +106,7 @@
   
   // animate image
   CABasicAnimation * animImage = [CABasicAnimation animationWithKeyPath:@"contents"];
-  animImage.fromValue = (id)[fromImage CGImage];
+  animImage.fromValue = (id)[oldImage CGImage];
   animImage.toValue   = (id)[toImage CGImage];
   animImage.duration  = (CFTimeInterval) ANIMATION_DURATION;
 
@@ -234,7 +234,6 @@
     CGRect newBounds = CGRectInset(oldBounds, 30, 30);
     
     [[self class] animateLayer:self.imageView.layer
-                     fromImage:self.imageView.image
                        toImage:self.imageViewA.image
                  toNewPosition:newPos 
                    toNewBounds:newBounds];
