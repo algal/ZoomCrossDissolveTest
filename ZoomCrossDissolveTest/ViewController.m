@@ -10,7 +10,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-#define ANIMATION_DURATION ((CFTimeInterval) 5.0)
+#define ANIMATION_DURATION ((CFTimeInterval) 1.0)
 
 @implementation ViewController
 @synthesize switchAB;
@@ -230,10 +230,10 @@
 
     // layer-based animation of position, bounds & cross-dissolve of contents
     CGPoint oldPos = self.imageView.layer.position;
-    CGPoint newPos = CGPointMake(oldPos.x - 100, oldPos.y);
+    CGPoint newPos = CGPointMake(oldPos.x - 200, oldPos.y);
     
     CGRect oldBounds = self.imageView.layer.bounds;
-    CGRect newBounds = CGRectInset(oldBounds, 30, 30);
+    CGRect newBounds = CGRectInset(oldBounds, 40, 40);
     
     [[self class] animateLayer:self.imageView.layer
                        toImage:self.imageViewA.image
