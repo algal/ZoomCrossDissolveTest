@@ -12,16 +12,32 @@
 
 #define ANIMATION_DURATION ((CFTimeInterval) 1.0)
 
+@interface ViewController ()
+@property (assign) CGRect initialBounds;
+@property (assign) CGPoint initialPosition;
+@property (strong) UIImage * initialImage;
+@end
+
 @implementation ViewController
 @synthesize switchAB;
 @synthesize imageViewA;
 @synthesize imageViewB;
 @synthesize imageView;
 
+@synthesize initialBounds, initialPosition,initialImage;
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Release any cached data, images, etc that aren't in use.
+}
+
+-(void)resetAnimatableView
+{
+  self.imageView.layer.position = self.initialPosition;
+  self.imageView.layer.bounds = self.initialBounds;
+  self.imageView.layer.contents = (id) [self.initialImage CGImage];
+  [self.imageView setNeedsDisplay];
 }
 
 #pragma mark - View lifecycle
@@ -32,8 +48,13 @@
 	// Do any additional setup after loading the view, typically from a nib.
   
 //  self.imageView.image = [UIImage imageNamed:@"o1_300x402.jpg"];
-  self.imageView.image = [UIImage imageNamed:@"o2_150x201.jpg"];
-  //  [self.imageView setNeedsDisplay];
+//  self.imageView.image = [UIImage imageNamed:@"o2_150x201.jpg"];
+
+  self.initialPosition = self.imageView.layer.position;
+  self.initialBounds = self.imageView.layer.bounds;
+  self.initialImage = [UIImage imageNamed:@"o2_150x201.jpg"];
+
+  [self resetAnimatableView];
 }
 
 - (void)viewDidUnload
@@ -230,7 +251,7 @@
 
     // layer-based animation of position, bounds & cross-dissolve of contents
     CGPoint oldPos = self.imageView.layer.position;
-    CGPoint newPos = CGPointMake(oldPos.x - 200, oldPos.y);
+    CGPoint newPos = CGPointMake(oldPos.x - 400, oldPos.y);
     
     CGRect oldBounds = self.imageView.layer.bounds;
     CGRect newBounds = CGRectInset(oldBounds, 40, 40);
@@ -249,7 +270,7 @@
     [self.imageView setNeedsDisplay];
   } 
   else if (sender.tag == 300 ) {
-    self.imageView.frame = CGRectMake(239, 616, 261, 234);
+    [self resetAnimatableView];
   } 
   else {
     NSLog(@"unrecognized");
