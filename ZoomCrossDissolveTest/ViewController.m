@@ -72,6 +72,96 @@
     // Return YES for supported orientations
   return YES;
 }
+#pragma mark helper
+
++(void) animateLayer:(CALayer*) theLayer 
+             toImage:(UIImage*) toImage
+       toNewPosition:(CGPoint) toPosition
+         toNewBounds:(CGRect) toBounds
+{
+  // animation position
+  CABasicAnimation * animPos = [CABasicAnimation animationWithKeyPath:@"position"];
+  animPos.fromValue = nil;
+  animPos.toValue   = [NSValue valueWithCGPoint:toPosition];
+  animPos.duration  = (CFTimeInterval) ANIMATION_DURATION;
+  [theLayer addAnimation:animPos forKey:@"animation-positionX"];
+  
+  // animate bounds
+  CABasicAnimation * animBounds = [CABasicAnimation animationWithKeyPath:@"bounds"];
+  animBounds.fromValue = nil;
+  animBounds.toValue = [NSValue valueWithCGRect:toBounds];
+  animBounds.duration = (CFTimeInterval) ANIMATION_DURATION;
+  [theLayer addAnimation:animBounds forKey:@"animation-bounds"];
+  
+  // animate image
+  CABasicAnimation * animImage = [CABasicAnimation animationWithKeyPath:@"contents"];
+  animImage.fromValue = nil;
+  animImage.toValue   = (id)[toImage CGImage];
+  animImage.duration  = (CFTimeInterval) ANIMATION_DURATION;
+  [theLayer addAnimation:animImage forKey:@"animation-contents"];
+  
+//  // update model values
+//  theLayer.bounds = toBounds;
+//  theLayer.position = toPosition;
+//  theLayer.contents = (id) [toImage CGImage];
+  
+  return;
+}
+
++(void) animateLayer:(CALayer*) theLayer 
+           fromImage:(UIImage*) fromImage 
+        atStartFrame:(CGRect) fromFrame 
+             toImage:(UIImage*) toImage
+          toEndFrame:(CGRect) toFrame
+{
+  // animation position
+  CABasicAnimation * animPos = [CABasicAnimation animationWithKeyPath:@"frame"];
+  animPos.fromValue = [NSValue valueWithCGRect:fromFrame];
+  animPos.toValue   = [NSValue valueWithCGRect:toFrame];
+  animPos.duration  = (CFTimeInterval) ANIMATION_DURATION;
+  [theLayer addAnimation:animPos forKey:@"animation-positionX"];
+  
+  // animate image
+  CABasicAnimation * animImage = [CABasicAnimation animationWithKeyPath:@"contents"];
+  animImage.fromValue = (id)[fromImage CGImage];
+  animImage.toValue   = (id)[toImage CGImage];
+  animImage.duration  = (CFTimeInterval) ANIMATION_DURATION;
+  [theLayer addAnimation:animImage forKey:@"animation-contents"];
+  
+  // update model values
+  theLayer.frame = toFrame;
+  theLayer.contents = (id) [toImage CGImage];
+  
+  return;
+}
+
++(void) animateLayer:(CALayer*) theLayer 
+           fromImage:(UIImage*) fromImage 
+        atStartPosition:(CGPoint) fromPos
+             toImage:(UIImage*) toImage
+          toEndPosition:(CGPoint) toPos
+{
+  // animation position
+  CABasicAnimation * animPos = [CABasicAnimation animationWithKeyPath:@"position"];
+  animPos.fromValue = [NSValue valueWithCGPoint:fromPos];
+  animPos.toValue   = [NSValue valueWithCGPoint:toPos];
+  animPos.duration  = (CFTimeInterval) ANIMATION_DURATION;
+  [theLayer addAnimation:animPos forKey:@"animation-positionX"];
+  
+  // animation 
+  CABasicAnimation * animImage = [CABasicAnimation animationWithKeyPath:@"contents"];
+  animImage.fromValue = (id)[fromImage CGImage];
+  animImage.toValue   = (id)[toImage CGImage];
+  animImage.duration  = (CFTimeInterval) ANIMATION_DURATION;
+  [theLayer addAnimation:animImage forKey:@"animation-contents"];
+  
+  // update model values
+  theLayer.position = toPos;
+  theLayer.contents = (id) [toImage CGImage];
+  
+  return;
+}
+
 
 #pragma mark actions
 
@@ -108,6 +198,7 @@
                      }];
 */    
 
+    /*
     // layer-based animation of position & cross-dissolve of contents
     // setup the animation
     UIImage * fromImage = self.imageView.image;
@@ -135,7 +226,45 @@
     // update model values
     imageLayer.position = CGPointMake(toX,imageLayer.position.y);
     imageLayer.contents = (id) [toImage CGImage];
+*/    
+
+/*
+ // layer-based animation of frame & cross-dissolve of contents
+    CGRect oldFrame = self.imageView.layer.frame;
+    CGRect newFrame = CGRectOffset(oldFrame, -100, 0);
+
+    [[self class] animateLayer:self.imageView.layer
+                     fromImage:self.imageView.image
+                  atStartFrame:self.imageView.layer.frame
+                       toImage:self.imageViewA.image
+                    toEndFrame:newFrame];
+*/    
+
+/*   
+    // layer-based animation of position & cross-dissolve of contents
+    CGPoint oldPos = self.imageView.layer.position;
+    CGPoint newPos = CGPointMake(oldPos.x - 100, oldPos.y);
+
+    [[self class] animateLayer:self.imageView.layer
+                     fromImage:self.imageView.image
+               atStartPosition:self.imageView.layer.position
+                       toImage:self.imageViewA.image
+                 toEndPosition:newPos];
     
+*/
+
+    // layer-based animation of position, bounds & cross-dissolve of contents
+    CGPoint oldPos = self.imageView.layer.position;
+    CGPoint newPos = CGPointMake(oldPos.x - 100, oldPos.y);
+    
+    CGRect oldBounds = self.imageView.layer.bounds;
+    CGRect newBounds = CGRectInset(oldBounds, 30, 30);
+    
+    [[self class] animateLayer:self.imageView.layer
+                       toImage:self.imageViewA.image
+                 toNewPosition:newPos 
+                   toNewBounds:newBounds];
+
 //    [self.view setNeedsLayout];
   } 
   else if (sender.tag == 200 ) {
