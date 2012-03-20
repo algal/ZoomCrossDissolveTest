@@ -107,11 +107,14 @@
   [theLayer renderInContext:UIGraphicsGetCurrentContext()];
   UIImage *oldImage = UIGraphicsGetImageFromCurrentImageContext();
   
-  // update model values to end values, after preventing implicit animation of these properties
+  // preventing implicit animations from being generated everty time we change layer property values
   [CATransaction setDisableActions:YES];
+  // change the layer property values to their new final values
   theLayer.bounds = toBounds;
   theLayer.position = toPosition;
   theLayer.contents = (id) [toImage CGImage];
+
+  // now construct explicit animations..
 
   // animate position
   CABasicAnimation * animPos = [CABasicAnimation animationWithKeyPath:@"position"];
@@ -131,7 +134,7 @@
   animImage.toValue   = (id)[toImage CGImage];
   animImage.duration  = (CFTimeInterval) ANIMATION_DURATION;
 
-  // collect the animations
+  // collect the animations into one group (maybe unnecessary?)
   CAAnimationGroup * animationGroup = [[CAAnimationGroup alloc] init];
   animationGroup.animations = [NSArray arrayWithObjects:animPos, animBounds, animImage,nil];
   animationGroup.duration = ANIMATION_DURATION;

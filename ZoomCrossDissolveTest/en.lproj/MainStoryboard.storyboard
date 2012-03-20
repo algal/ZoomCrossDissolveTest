@@ -35,7 +35,7 @@
                                     <action selector="buttonPushed:" destination="2" eventType="touchUpInside" id="Fgw-EN-RA7"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" userInteractionEnabled="NO" tag="200" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Cde-6Y-Bfg">
+                            <button opaque="NO" tag="200" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Cde-6Y-Bfg">
                                 <rect key="frame" x="676" y="65" width="72" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
