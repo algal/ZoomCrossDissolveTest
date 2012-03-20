@@ -92,7 +92,7 @@
   theLayer.position = toPosition;
   theLayer.contents = (id) [toImage CGImage];
 
-  // animation position
+  // animate position
   CABasicAnimation * animPos = [CABasicAnimation animationWithKeyPath:@"position"];
   animPos.fromValue = [NSValue valueWithCGPoint:oldPos];
   animPos.toValue   = [NSValue valueWithCGPoint:toPosition];
@@ -110,10 +110,12 @@
   animImage.toValue   = (id)[toImage CGImage];
   animImage.duration  = (CFTimeInterval) ANIMATION_DURATION;
 
+  // collect the animations
   CAAnimationGroup * animationGroup = [[CAAnimationGroup alloc] init];
   animationGroup.animations = [NSArray arrayWithObjects:animPos, animBounds, animImage,nil];
   animationGroup.duration = ANIMATION_DURATION;
   
+  // add them to the layer.
   [theLayer addAnimation:animationGroup forKey:@"groupOfAnimation"];
 
   return;
