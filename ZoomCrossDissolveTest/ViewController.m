@@ -75,63 +75,47 @@
 #pragma mark helper
 
 +(void) animateLayer:(CALayer*) theLayer 
+           fromImage:(UIImage*) fromImage
              toImage:(UIImage*) toImage
        toNewPosition:(CGPoint) toPosition
          toNewBounds:(CGRect) toBounds
 {
+    // cache start values
+  // (we just take the old image as a function parameter, since 
+  // to read it off the layer we need to do redraw it it which is awkward)
+  CGPoint oldPos = theLayer.position;
+  CGRect oldBounds = theLayer.bounds;
+  
+  // update model values to end values, after preventing implicit animation of these properties
+  [CATransaction setDisableActions:YES];
+  theLayer.bounds = toBounds;
+  theLayer.position = toPosition;
+  theLayer.contents = (id) [toImage CGImage];
+
   // animation position
   CABasicAnimation * animPos = [CABasicAnimation animationWithKeyPath:@"position"];
-  animPos.fromValue = nil;
+  animPos.fromValue = [NSValue valueWithCGPoint:oldPos];
   animPos.toValue   = [NSValue valueWithCGPoint:toPosition];
   animPos.duration  = (CFTimeInterval) ANIMATION_DURATION;
-  [theLayer addAnimation:animPos forKey:@"animation-positionX"];
   
   // animate bounds
   CABasicAnimation * animBounds = [CABasicAnimation animationWithKeyPath:@"bounds"];
-  animBounds.fromValue = nil;
+  animBounds.fromValue = [NSValue valueWithCGRect:oldBounds];
   animBounds.toValue = [NSValue valueWithCGRect:toBounds];
   animBounds.duration = (CFTimeInterval) ANIMATION_DURATION;
-  [theLayer addAnimation:animBounds forKey:@"animation-bounds"];
-  
-  // animate image
-  CABasicAnimation * animImage = [CABasicAnimation animationWithKeyPath:@"contents"];
-  animImage.fromValue = nil;
-  animImage.toValue   = (id)[toImage CGImage];
-  animImage.duration  = (CFTimeInterval) ANIMATION_DURATION;
-  [theLayer addAnimation:animImage forKey:@"animation-contents"];
-  
-//  // update model values
-//  theLayer.bounds = toBounds;
-//  theLayer.position = toPosition;
-//  theLayer.contents = (id) [toImage CGImage];
-  
-  return;
-}
-
-+(void) animateLayer:(CALayer*) theLayer 
-           fromImage:(UIImage*) fromImage 
-        atStartFrame:(CGRect) fromFrame 
-             toImage:(UIImage*) toImage
-          toEndFrame:(CGRect) toFrame
-{
-  // animation position
-  CABasicAnimation * animPos = [CABasicAnimation animationWithKeyPath:@"frame"];
-  animPos.fromValue = [NSValue valueWithCGRect:fromFrame];
-  animPos.toValue   = [NSValue valueWithCGRect:toFrame];
-  animPos.duration  = (CFTimeInterval) ANIMATION_DURATION;
-  [theLayer addAnimation:animPos forKey:@"animation-positionX"];
   
   // animate image
   CABasicAnimation * animImage = [CABasicAnimation animationWithKeyPath:@"contents"];
   animImage.fromValue = (id)[fromImage CGImage];
   animImage.toValue   = (id)[toImage CGImage];
   animImage.duration  = (CFTimeInterval) ANIMATION_DURATION;
-  [theLayer addAnimation:animImage forKey:@"animation-contents"];
+
+  CAAnimationGroup * animationGroup = [[CAAnimationGroup alloc] init];
+  animationGroup.animations = [NSArray arrayWithObjects:animPos, animBounds, animImage,nil];
+  animationGroup.duration = ANIMATION_DURATION;
   
-  // update model values
-  theLayer.frame = toFrame;
-  theLayer.contents = (id) [toImage CGImage];
-  
+  [theLayer addAnimation:animationGroup forKey:@"groupOfAnimation"];
+
   return;
 }
 
@@ -228,17 +212,6 @@
     imageLayer.contents = (id) [toImage CGImage];
 */    
 
-/*
- // layer-based animation of frame & cross-dissolve of contents
-    CGRect oldFrame = self.imageView.layer.frame;
-    CGRect newFrame = CGRectOffset(oldFrame, -100, 0);
-
-    [[self class] animateLayer:self.imageView.layer
-                     fromImage:self.imageView.image
-                  atStartFrame:self.imageView.layer.frame
-                       toImage:self.imageViewA.image
-                    toEndFrame:newFrame];
-*/    
 
 /*   
     // layer-based animation of position & cross-dissolve of contents
@@ -261,6 +234,7 @@
     CGRect newBounds = CGRectInset(oldBounds, 30, 30);
     
     [[self class] animateLayer:self.imageView.layer
+                     fromImage:self.imageView.image
                        toImage:self.imageViewA.image
                  toNewPosition:newPos 
                    toNewBounds:newBounds];
