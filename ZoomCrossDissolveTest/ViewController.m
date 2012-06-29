@@ -23,6 +23,8 @@
 @synthesize imageViewA;
 @synthesize imageViewB;
 @synthesize imageView;
+@synthesize viewOne;
+@synthesize viewTwo;
 
 @synthesize initialBounds, initialPosition,initialImage;
 
@@ -63,6 +65,8 @@
   [self setImageViewA:nil];
   [self setImageViewB:nil];
   [self setSwitchAB:nil];
+  [self setViewOne:nil];
+  [self setViewTwo:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -103,7 +107,7 @@
     // cache start values
   CGPoint oldPos = theLayer.position;
   CGRect oldBounds = theLayer.bounds;
-  UIGraphicsBeginImageContext(theLayer.bounds.size);
+  UIGraphicsBeginImageContextWithOptions(theLayer.bounds.size,NO,0.0);
   [theLayer renderInContext:UIGraphicsGetCurrentContext()];
   UIImage *oldImage = UIGraphicsGetImageFromCurrentImageContext();
   
@@ -280,6 +284,12 @@
   }
   
 }
+
+- (IBAction)viewDissolve:(id)sender {
+  NSLog(@"beginning viewDissolve");
+  
+}
+
 
 
 @end

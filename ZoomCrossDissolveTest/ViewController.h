@@ -16,4 +16,9 @@
 @property (strong, nonatomic) IBOutlet UIImageView *imageViewB;
 
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
+
+
+@property (weak, nonatomic) IBOutlet UIImageView *viewOne;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *viewTwo;
+
 @end
