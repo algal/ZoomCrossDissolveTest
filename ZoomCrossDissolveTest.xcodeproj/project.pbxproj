@@ -18,6 +18,10 @@
 		5E984F75151782BE00AFED27 /* o1_300x402.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5E984F73151782BE00AFED27 /* o1_300x402.jpg */; };
 		5E984F76151782BE00AFED27 /* o2_150x201.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5E984F74151782BE00AFED27 /* o2_150x201.jpg */; };
 		5E984F781517977900AFED27 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E984F771517977900AFED27 /* QuartzCore.framework */; };
+		5EFFBB43159DD6C3004E6084 /* DCCrossHairView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EFFBB3B159DD6C3004E6084 /* DCCrossHairView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5EFFBB44159DD6C3004E6084 /* DCFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EFFBB3D159DD6C3004E6084 /* DCFrameView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5EFFBB45159DD6C3004E6084 /* DCIntrospect.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EFFBB3F159DD6C3004E6084 /* DCIntrospect.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5EFFBB46159DD6C3004E6084 /* DCStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EFFBB42159DD6C3004E6084 /* DCStatusBarOverlay.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +41,15 @@
 		5E984F73151782BE00AFED27 /* o1_300x402.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = o1_300x402.jpg; sourceTree = "<group>"; };
 		5E984F74151782BE00AFED27 /* o2_150x201.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = o2_150x201.jpg; sourceTree = "<group>"; };
 		5E984F771517977900AFED27 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		5EFFBB3A159DD6C3004E6084 /* DCCrossHairView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCCrossHairView.h; sourceTree = "<group>"; };
+		5EFFBB3B159DD6C3004E6084 /* DCCrossHairView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCCrossHairView.m; sourceTree = "<group>"; };
+		5EFFBB3C159DD6C3004E6084 /* DCFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCFrameView.h; sourceTree = "<group>"; };
+		5EFFBB3D159DD6C3004E6084 /* DCFrameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCFrameView.m; sourceTree = "<group>"; };
+		5EFFBB3E159DD6C3004E6084 /* DCIntrospect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCIntrospect.h; sourceTree = "<group>"; };
+		5EFFBB3F159DD6C3004E6084 /* DCIntrospect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCIntrospect.m; sourceTree = "<group>"; };
+		5EFFBB40159DD6C3004E6084 /* DCIntrospectSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCIntrospectSettings.h; sourceTree = "<group>"; };
+		5EFFBB41159DD6C3004E6084 /* DCStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCStatusBarOverlay.h; sourceTree = "<group>"; };
+		5EFFBB42159DD6C3004E6084 /* DCStatusBarOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCStatusBarOverlay.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +70,7 @@
 		5E984F4715177F1A00AFED27 = {
 			isa = PBXGroup;
 			children = (
+				5EFFBB39159DD6C3004E6084 /* DCIntrospect */,
 				5E984F5C15177F1A00AFED27 /* ZoomCrossDissolveTest */,
 				5E984F5515177F1A00AFED27 /* Frameworks */,
 				5E984F5315177F1A00AFED27 /* Products */,
@@ -106,6 +120,22 @@
 				5E984F6415177F1A00AFED27 /* ZoomCrossDissolveTest-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5EFFBB39159DD6C3004E6084 /* DCIntrospect */ = {
+			isa = PBXGroup;
+			children = (
+				5EFFBB3A159DD6C3004E6084 /* DCCrossHairView.h */,
+				5EFFBB3B159DD6C3004E6084 /* DCCrossHairView.m */,
+				5EFFBB3C159DD6C3004E6084 /* DCFrameView.h */,
+				5EFFBB3D159DD6C3004E6084 /* DCFrameView.m */,
+				5EFFBB3E159DD6C3004E6084 /* DCIntrospect.h */,
+				5EFFBB3F159DD6C3004E6084 /* DCIntrospect.m */,
+				5EFFBB40159DD6C3004E6084 /* DCIntrospectSettings.h */,
+				5EFFBB41159DD6C3004E6084 /* DCStatusBarOverlay.h */,
+				5EFFBB42159DD6C3004E6084 /* DCStatusBarOverlay.m */,
+			);
+			path = DCIntrospect;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -175,6 +205,10 @@
 				5E984F6315177F1A00AFED27 /* main.m in Sources */,
 				5E984F6715177F1A00AFED27 /* AppDelegate.m in Sources */,
 				5E984F6D15177F1A00AFED27 /* ViewController.m in Sources */,
+				5EFFBB43159DD6C3004E6084 /* DCCrossHairView.m in Sources */,
+				5EFFBB44159DD6C3004E6084 /* DCFrameView.m in Sources */,
+				5EFFBB45159DD6C3004E6084 /* DCIntrospect.m in Sources */,
+				5EFFBB46159DD6C3004E6084 /* DCStatusBarOverlay.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,6 +322,7 @@
 				5E984F7215177F1A00AFED27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
