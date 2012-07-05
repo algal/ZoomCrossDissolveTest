@@ -26,6 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5E269AB815A5D2360055BEFB /* CALayer+LayerDebugging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CALayer+LayerDebugging.h"; sourceTree = "<group>"; };
+		5E269AB915A5D2360055BEFB /* CALayer+LayerDebugging.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CALayer+LayerDebugging.m"; sourceTree = "<group>"; };
 		5E984F5215177F1A00AFED27 /* ZoomCrossDissolveTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZoomCrossDissolveTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E984F5615177F1A00AFED27 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5E984F5815177F1A00AFED27 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -71,9 +73,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5E269AB615A5D2240055BEFB /* utilities */ = {
+			isa = PBXGroup;
+			children = (
+				5E269AB815A5D2360055BEFB /* CALayer+LayerDebugging.h */,
+				5E269AB915A5D2360055BEFB /* CALayer+LayerDebugging.m */,
+			);
+			name = utilities;
+			sourceTree = "<group>";
+		};
 		5E984F4715177F1A00AFED27 = {
 			isa = PBXGroup;
 			children = (
+				5E269AB615A5D2240055BEFB /* utilities */,
 				5EFFBB48159DDA45004E6084 /* iOSHierarchyViewer */,
 				5EFFBB39159DD6C3004E6084 /* DCIntrospect */,
 				5E984F5C15177F1A00AFED27 /* ZoomCrossDissolveTest */,

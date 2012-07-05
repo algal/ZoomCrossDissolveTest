@@ -176,6 +176,24 @@
   return;
 }
 
+/**
+ Performing a zooming cross dissolve of one
+ view into the position of the other.
+ 
+ Both views must have a common superview.
+ */
++(void) zoomDissolveView:(UIView*) srcView
+                  toView:(UIView*)destView
+{
+  if (srcView.superview != destView.superview) {
+    NSLog(@"srcView and destView must share a superview");
+    return;
+  }
+  
+  
+  return;
+}
+
 
 #pragma mark actions
 
@@ -284,10 +302,24 @@
   }
   
 }
+- (IBAction)shiftLayer:(id)sender {
+  NSLog(@"self.viewOne.layer.position=%@",NSStringFromCGPoint(self.viewOne.layer.position));
+  NSLog(@"self.viewOne.frame.origin=%@",NSStringFromCGPoint(self.viewOne.frame.origin));
+
+  NSLog(@"increasing layer.position.x by +20");
+  self.viewOne.layer.position = CGPointApplyAffineTransform(self.viewOne.layer.position, CGAffineTransformMakeTranslation(20, 0)); // x += 20
+
+  NSLog(@"increasing layer.position.y by +20");
+  self.viewOne.layer.position = CGPointApplyAffineTransform(self.viewOne.layer.position, CGAffineTransformMakeTranslation(0, 20)); // y += 20
+
+  NSLog(@"self.viewOne.layer.position=%@",NSStringFromCGPoint(self.viewOne.layer.position));
+  NSLog(@"self.viewOne.frame.origin=%@",NSStringFromCGPoint(self.viewOne.frame.origin));
+}
 
 - (IBAction)viewDissolve:(id)sender {
   NSLog(@"beginning viewDissolve");
-  
+  [[self class] zoomDissolveView:self.viewOne 
+                          toView:self.viewTwo];
 }
 
 
