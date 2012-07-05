@@ -22,6 +22,7 @@
 		5EFFBB44159DD6C3004E6084 /* DCFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EFFBB3D159DD6C3004E6084 /* DCFrameView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5EFFBB45159DD6C3004E6084 /* DCIntrospect.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EFFBB3F159DD6C3004E6084 /* DCIntrospect.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5EFFBB46159DD6C3004E6084 /* DCStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EFFBB42159DD6C3004E6084 /* DCStatusBarOverlay.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5EFFBB54159DEBD3004E6084 /* libiOSHierarchyViewer_fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EFFBB4A159DDA67004E6084 /* libiOSHierarchyViewer_fat.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,8 @@
 		5EFFBB40159DD6C3004E6084 /* DCIntrospectSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCIntrospectSettings.h; sourceTree = "<group>"; };
 		5EFFBB41159DD6C3004E6084 /* DCStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCStatusBarOverlay.h; sourceTree = "<group>"; };
 		5EFFBB42159DD6C3004E6084 /* DCStatusBarOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCStatusBarOverlay.m; sourceTree = "<group>"; };
+		5EFFBB49159DDA67004E6084 /* iOSHierarchyViewer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iOSHierarchyViewer.h; sourceTree = "<group>"; };
+		5EFFBB4A159DDA67004E6084 /* libiOSHierarchyViewer_fat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libiOSHierarchyViewer_fat.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EFFBB54159DEBD3004E6084 /* libiOSHierarchyViewer_fat.a in Frameworks */,
 				5E984F781517977900AFED27 /* QuartzCore.framework in Frameworks */,
 				5E984F5715177F1A00AFED27 /* UIKit.framework in Frameworks */,
 				5E984F5915177F1A00AFED27 /* Foundation.framework in Frameworks */,
@@ -70,6 +74,7 @@
 		5E984F4715177F1A00AFED27 = {
 			isa = PBXGroup;
 			children = (
+				5EFFBB48159DDA45004E6084 /* iOSHierarchyViewer */,
 				5EFFBB39159DD6C3004E6084 /* DCIntrospect */,
 				5E984F5C15177F1A00AFED27 /* ZoomCrossDissolveTest */,
 				5E984F5515177F1A00AFED27 /* Frameworks */,
@@ -136,6 +141,15 @@
 				5EFFBB42159DD6C3004E6084 /* DCStatusBarOverlay.m */,
 			);
 			path = DCIntrospect;
+			sourceTree = "<group>";
+		};
+		5EFFBB48159DDA45004E6084 /* iOSHierarchyViewer */ = {
+			isa = PBXGroup;
+			children = (
+				5EFFBB49159DDA67004E6084 /* iOSHierarchyViewer.h */,
+				5EFFBB4A159DDA67004E6084 /* libiOSHierarchyViewer_fat.a */,
+			);
+			name = iOSHierarchyViewer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -255,6 +269,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -275,6 +293,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
@@ -287,6 +309,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ZoomCrossDissolveTest/ZoomCrossDissolveTest-Prefix.pch";
 				INFOPLIST_FILE = "ZoomCrossDissolveTest/ZoomCrossDissolveTest-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -298,6 +324,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ZoomCrossDissolveTest/ZoomCrossDissolveTest-Prefix.pch";
 				INFOPLIST_FILE = "ZoomCrossDissolveTest/ZoomCrossDissolveTest-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
