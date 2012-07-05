@@ -11,8 +11,11 @@
 @implementation CALayer (LayerDebugging)
 -(NSString*)debugDescription
 {
-	return [NSString stringWithFormat:@"< %@; frame=%@; zAnchor=%1.1f>", 
+	return [NSString stringWithFormat:@"< %@; bounds=%@; anchorPoint=%@; position=%@; frame=%@; zAnchor=%1.1f>", 
           self,
+          NSStringFromCGRect(self.bounds),
+          NSStringFromCGPoint(self.anchorPoint),
+          NSStringFromCGPoint(self.position),
           NSStringFromCGRect(self.frame), 
           self.zPosition];
 }

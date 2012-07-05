@@ -10,6 +10,8 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+#import "CALayer+LayerDebugging.h"
+
 #define ANIMATION_DURATION ((CFTimeInterval) 1.0)
 
 @interface ViewController ()
@@ -315,6 +317,9 @@
   NSLog(@"self.viewOne.layer.position=%@",NSStringFromCGPoint(self.viewOne.layer.position));
   NSLog(@"self.viewOne.frame.origin=%@",NSStringFromCGPoint(self.viewOne.frame.origin));
 }
+- (IBAction)logLayer:(id)sender {
+  NSLog(@"[self.viewOne.layer debugLayerTree]=%@",[self.viewOne.layer debugLayerTree] );
+}
 
 - (IBAction)viewDissolve:(id)sender {
   NSLog(@"beginning viewDissolve");
@@ -322,6 +327,12 @@
                           toView:self.viewTwo];
 }
 
+- (IBAction)mutateAnchorPoint:(id)sender {
+  NSLog(@"[self.viewOne.layer debugLayerTree]=%@",[self.viewOne.layer debugLayerTree] );
+  NSLog(@"mutating anchorPoint to 0,0");
+  self.viewOne.layer.anchorPoint=CGPointMake(0,0);
+  NSLog(@"[self.viewOne.layer debugLayerTree]=%@",[self.viewOne.layer debugLayerTree] );
+}
 
 
 @end

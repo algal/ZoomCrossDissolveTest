@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E269ABA15A5D3410055BEFB /* CALayer+LayerDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E269AB915A5D2360055BEFB /* CALayer+LayerDebugging.m */; };
 		5E984F5715177F1A00AFED27 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E984F5615177F1A00AFED27 /* UIKit.framework */; };
 		5E984F5915177F1A00AFED27 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E984F5815177F1A00AFED27 /* Foundation.framework */; };
 		5E984F5B15177F1A00AFED27 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E984F5A15177F1A00AFED27 /* CoreGraphics.framework */; };
@@ -228,6 +229,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E269ABA15A5D3410055BEFB /* CALayer+LayerDebugging.m in Sources */,
 				5E984F6315177F1A00AFED27 /* main.m in Sources */,
 				5E984F6715177F1A00AFED27 /* AppDelegate.m in Sources */,
 				5E984F6D15177F1A00AFED27 /* ViewController.m in Sources */,
