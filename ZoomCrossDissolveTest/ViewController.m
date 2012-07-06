@@ -180,7 +180,7 @@
 }
 
 /**
- Replaces originalView with a UIView holding the same image.
+ Replaces originalView with a plain UIView holding a snapshot.
  
  @param originalView view to be replaced
  @return replacement view
@@ -208,16 +208,17 @@
  
  @param startLayer
  @param destLayer
+ @param aDelegate a CAAnimation delegate
  
  Both layers are snapshotted. First layer is animated and mutated to new
- values for position,bounds,contents. Layers can either be siblings under
- the same UIView, or both the backing layers of sibling UIViews.
+ values for position,bounds,contents. Layers can be either siblings in a layer 
+ hierarchy, or the backing layers of sibling UIViews.
  
  */
 
-+(void)                  zoomFadeLayer:(CALayer*)startLayer 
-                        toSiblingLayer:(CALayer*)destLayer
-                     animationDelegate:(id)aDelegate
++(void) zoomFadeLayer:(CALayer*)startLayer 
+       toSiblingLayer:(CALayer*)destLayer
+    animationDelegate:(id)aDelegate
 {
   // start values
   CGPoint oldPos = startLayer.position;
@@ -233,7 +234,7 @@
   [destLayer renderInContext:UIGraphicsGetCurrentContext()];
   UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
 
-  // preventing implicit animations from being generated everty time we change layer property values
+  // preventing implicit animations every time we change layer property values
   [CATransaction setDisableActions:YES];
   // change the layer property values to their new final values
   startLayer.position = newPos;
@@ -278,11 +279,7 @@
 }
 
 /**
- Performing a zooming cross dissolve of one
- view into the position of the other.
- 
- Removes sourceView and replaces it with a blank
- view with its image. does animations on that view.
+ Performing a zooming fade of one into another, removing the former.
  */
 +(void) zoomDissolveView:(UIView*) srcView
                   toView:(UIView*)destView
