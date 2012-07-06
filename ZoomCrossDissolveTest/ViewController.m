@@ -106,7 +106,7 @@
        toNewPosition:(CGPoint) toPosition
          toNewBounds:(CGRect) toBounds
 {
-    // cache start values
+  // cache start values
   CGPoint oldPos = theLayer.position;
   CGRect oldBounds = theLayer.bounds;
   UIGraphicsBeginImageContextWithOptions(theLayer.bounds.size,NO,0.0);
@@ -179,10 +179,85 @@
 }
 
 /**
+ Replaces originalView with a UIView holding the same image.
+ 
+ @param originalView view to be replaced
+ @return replacement view
+ */
+
++(UIView*) replaceView:(UIView*)originalView
+{
+  UIView * srcView = originalView;
+  // snapshot srcView
+  UIGraphicsBeginImageContextWithOptions(srcView.layer.bounds.size,NO,0.0);
+  [srcView.layer renderInContext:UIGraphicsGetCurrentContext()];
+  UIImage *oldImage = UIGraphicsGetImageFromCurrentImageContext();
+  // assign its image to a replacement view
+  UIView * srcReplacementView = [[UIView alloc] initWithFrame:srcView.frame];
+  srcReplacementView.layer.contents = (id) [oldImage CGImage];
+  // swap
+  [srcView.superview insertSubview:srcReplacementView aboveSubview:srcView];
+  [srcView.superview setNeedsDisplayInRect:srcReplacementView.frame];
+  [srcView removeFromSuperview];
+  return srcReplacementView;  
+}
+
++(void)animateLayer:(CALayer*)startLayer 
+  toPositionAndBoundsOfLayer:(CALayer*)destLayer
+{
+  // start values
+  CGPoint oldPos = startLayer.position;
+  CGRect oldBounds = startLayer.bounds;
+
+  // new values
+  CGPoint newPos = destLayer.position;
+  CGRect newBounds = destLayer.bounds;
+  
+  // preventing implicit animations from being generated everty time we change layer property values
+  [CATransaction setDisableActions:YES];
+  // change the layer property values to their new final values
+  startLayer.position = newPos;
+  startLayer.bounds = newBounds;
+//  startLayer.contents = (id) [toImage CGImage];
+  
+  // now construct explicit animations..
+  
+  // animate position
+  CABasicAnimation * animPos = [CABasicAnimation animationWithKeyPath:@"position"];
+  animPos.fromValue = [NSValue valueWithCGPoint:oldPos];
+  animPos.toValue   = [NSValue valueWithCGPoint:newPos];
+  animPos.duration  = (CFTimeInterval) ANIMATION_DURATION;
+  
+  // animate bounds
+  CABasicAnimation * animBounds = [CABasicAnimation animationWithKeyPath:@"bounds"];
+  animBounds.fromValue = [NSValue valueWithCGRect:oldBounds];
+  animBounds.toValue = [NSValue valueWithCGRect:newBounds];
+  animBounds.duration = (CFTimeInterval) ANIMATION_DURATION;
+//  
+//  // animate image
+//  CABasicAnimation * animImage = [CABasicAnimation animationWithKeyPath:@"contents"];
+//  animImage.fromValue = (id)[oldImage CGImage];
+//  animImage.toValue   = (id)[newImage CGImage];
+//  animImage.duration  = (CFTimeInterval) ANIMATION_DURATION;
+  
+  // collect the animations into one group (maybe unnecessary?)
+  CAAnimationGroup * animationGroup = [[CAAnimationGroup alloc] init];
+  animationGroup.animations = [NSArray arrayWithObjects:animPos, animBounds,nil ];
+//                                                         , animImage,nil];
+  animationGroup.duration = ANIMATION_DURATION;
+  
+  // add them to the layer.
+  [startLayer addAnimation:animationGroup forKey:@"groupOfAnimation"];
+}
+
+/**
  Performing a zooming cross dissolve of one
  view into the position of the other.
  
  Both views must have a common superview.
+
+ Removes sourceView and replaces it with a blank
+ view with its image. does animations on that view.
  */
 +(void) zoomDissolveView:(UIView*) srcView
                   toView:(UIView*)destView
@@ -192,6 +267,8 @@
     return;
   }
   
+  [[self class] animateLayer:srcView.layer
+  toPositionAndBoundsOfLayer:destView.layer];
   
   return;
 }
@@ -205,105 +282,6 @@
   self.imageViewB.hidden = newHidden;
 }
 
--(IBAction)buttonPushed:(UIButton*)sender {
-  
-  if (sender.tag == 100) {
-/*
-    // UIKit-based cross-dissolve transition of image
-    [UIView transitionWithView:self.view
-                      duration:3.0f
-                       options:UIViewAnimationOptionTransitionCrossDissolve
-                    animations:^{
-                      self.imageView.image = self.imageViewA.image;
-                    } completion:^(BOOL finished) {
-                      NSLog(@"transition completed. interrupted=%@", (finished ? @"NO" : @"NO"));
-                    }];
-
-    // UIKit-based animation of UIImageView frame
-    [UIView animateWithDuration:3.0f
-                          delay:0.0f
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                       self.imageView.frame = self.imageViewA.frame;
-
-                       return;
-                     } completion:^(BOOL finished) {
-                       NSLog(@"animation completed. interrupted=%@", (finished ? @"NO" : @"NO"));
-                     }];
-*/    
-
-    /*
-    // layer-based animation of position & cross-dissolve of contents
-    // setup the animation
-    UIImage * fromImage = self.imageView.image;
-    UIImage * toImage = self.imageViewA.image;
-
-    CALayer * imageLayer = self.imageView.layer;
-    
-    CGFloat fromX = imageLayer.position.x;
-    CGFloat toX = fromX - 100;
-   
-    // animation position
-    CABasicAnimation * animPos = [CABasicAnimation animationWithKeyPath:@"position.x"];
-    animPos.fromValue = [NSNumber numberWithFloat:fromX];
-    animPos.toValue   = [NSNumber numberWithFloat:toX];
-    animPos.duration  = (CFTimeInterval) ANIMATION_DURATION;
-    [imageLayer addAnimation:animPos forKey:@"animation-positionX"];
-
-    // animation 
-    CABasicAnimation * animImage = [CABasicAnimation animationWithKeyPath:@"contents"];
-    animImage.fromValue = (id)[fromImage CGImage];
-    animImage.toValue   = (id)[toImage CGImage];
-    animImage.duration  = (CFTimeInterval) ANIMATION_DURATION;
-    [imageLayer addAnimation:animImage forKey:@"animation-contents"];
-    
-    // update model values
-    imageLayer.position = CGPointMake(toX,imageLayer.position.y);
-    imageLayer.contents = (id) [toImage CGImage];
-*/    
-
-
-/*   
-    // layer-based animation of position & cross-dissolve of contents
-    CGPoint oldPos = self.imageView.layer.position;
-    CGPoint newPos = CGPointMake(oldPos.x - 100, oldPos.y);
-
-    [[self class] animateLayer:self.imageView.layer
-                     fromImage:self.imageView.image
-               atStartPosition:self.imageView.layer.position
-                       toImage:self.imageViewA.image
-                 toEndPosition:newPos];
-    
-*/
-
-    // layer-based animation of position, bounds & cross-dissolve of contents
-    CGPoint oldPos = self.imageView.layer.position;
-    CGPoint newPos = CGPointMake(oldPos.x - 400, oldPos.y);
-    
-    CGRect oldBounds = self.imageView.layer.bounds;
-    CGRect newBounds = CGRectInset(oldBounds, 40, 40);
-    
-    [[self class] animateLayer:self.imageView.layer
-                       toImage:self.imageViewA.image
-                 toNewPosition:newPos 
-                   toNewBounds:newBounds];
-
-//    [self.view setNeedsLayout];
-  } 
-  else if (sender.tag == 200 ) {
-    self.imageView.frame = self.imageViewB.frame;
-    self.imageView.image = self.imageViewB.image;
-    [self.view setNeedsLayout];
-    [self.imageView setNeedsDisplay];
-  } 
-  else if (sender.tag == 300 ) {
-    [self resetAnimatableView];
-  } 
-  else {
-    NSLog(@"unrecognized");
-  }
-  
-}
 - (IBAction)shiftLayer:(id)sender {
   NSLog(@"self.viewOne.layer.position=%@",NSStringFromCGPoint(self.viewOne.layer.position));
   NSLog(@"self.viewOne.frame.origin=%@",NSStringFromCGPoint(self.viewOne.frame.origin));
@@ -323,6 +301,7 @@
 
 - (IBAction)viewDissolve:(id)sender {
   NSLog(@"beginning viewDissolve");
+  self.viewOne = [[self class] replaceView:self.viewOne]; // to work with a plain UIView
   [[self class] zoomDissolveView:self.viewOne 
                           toView:self.viewTwo];
 }
@@ -334,5 +313,104 @@
   NSLog(@"[self.viewOne.layer debugLayerTree]=%@",[self.viewOne.layer debugLayerTree] );
 }
 
+-(IBAction)buttonPushed:(UIButton*)sender {
+  
+  if (sender.tag == 100) {
+    /*
+     // UIKit-based cross-dissolve transition of image
+     [UIView transitionWithView:self.view
+     duration:3.0f
+     options:UIViewAnimationOptionTransitionCrossDissolve
+     animations:^{
+     self.imageView.image = self.imageViewA.image;
+     } completion:^(BOOL finished) {
+     NSLog(@"transition completed. interrupted=%@", (finished ? @"NO" : @"NO"));
+     }];
+     
+     // UIKit-based animation of UIImageView frame
+     [UIView animateWithDuration:3.0f
+     delay:0.0f
+     options:UIViewAnimationOptionCurveEaseIn
+     animations:^{
+     self.imageView.frame = self.imageViewA.frame;
+     
+     return;
+     } completion:^(BOOL finished) {
+     NSLog(@"animation completed. interrupted=%@", (finished ? @"NO" : @"NO"));
+     }];
+     */    
+    
+    /*
+     // layer-based animation of position & cross-dissolve of contents
+     // setup the animation
+     UIImage * fromImage = self.imageView.image;
+     UIImage * toImage = self.imageViewA.image;
+     
+     CALayer * imageLayer = self.imageView.layer;
+     
+     CGFloat fromX = imageLayer.position.x;
+     CGFloat toX = fromX - 100;
+     
+     // animation position
+     CABasicAnimation * animPos = [CABasicAnimation animationWithKeyPath:@"position.x"];
+     animPos.fromValue = [NSNumber numberWithFloat:fromX];
+     animPos.toValue   = [NSNumber numberWithFloat:toX];
+     animPos.duration  = (CFTimeInterval) ANIMATION_DURATION;
+     [imageLayer addAnimation:animPos forKey:@"animation-positionX"];
+     
+     // animation 
+     CABasicAnimation * animImage = [CABasicAnimation animationWithKeyPath:@"contents"];
+     animImage.fromValue = (id)[fromImage CGImage];
+     animImage.toValue   = (id)[toImage CGImage];
+     animImage.duration  = (CFTimeInterval) ANIMATION_DURATION;
+     [imageLayer addAnimation:animImage forKey:@"animation-contents"];
+     
+     // update model values
+     imageLayer.position = CGPointMake(toX,imageLayer.position.y);
+     imageLayer.contents = (id) [toImage CGImage];
+     */    
+    
+    
+    /*   
+     // layer-based animation of position & cross-dissolve of contents
+     CGPoint oldPos = self.imageView.layer.position;
+     CGPoint newPos = CGPointMake(oldPos.x - 100, oldPos.y);
+     
+     [[self class] animateLayer:self.imageView.layer
+     fromImage:self.imageView.image
+     atStartPosition:self.imageView.layer.position
+     toImage:self.imageViewA.image
+     toEndPosition:newPos];
+     
+     */
+    
+    // layer-based animation of position, bounds & cross-dissolve of contents
+    CGPoint oldPos = self.imageView.layer.position;
+    CGPoint newPos = CGPointMake(oldPos.x - 400, oldPos.y);
+    
+    CGRect oldBounds = self.imageView.layer.bounds;
+    CGRect newBounds = CGRectInset(oldBounds, 40, 40);
+    
+    [[self class] animateLayer:self.imageView.layer
+                       toImage:self.imageViewA.image
+                 toNewPosition:newPos 
+                   toNewBounds:newBounds];
+    
+    //    [self.view setNeedsLayout];
+  } 
+  else if (sender.tag == 200 ) {
+    self.imageView.frame = self.imageViewB.frame;
+    self.imageView.image = self.imageViewB.image;
+    [self.view setNeedsLayout];
+    [self.imageView setNeedsDisplay];
+  } 
+  else if (sender.tag == 300 ) {
+    [self resetAnimatableView];
+  } 
+  else {
+    NSLog(@"unrecognized");
+  }
+  
+}
 
 @end
