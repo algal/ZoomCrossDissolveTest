@@ -297,7 +297,7 @@
   [[self class] zoomFadeLayer:srcView.layer 
                toSiblingLayer:destView.layer 
             animationDelegate:
-   [MCKAnimationDelegate MCKAnimationDelegateHelperWithStopFinishedBlock:
+   [MCKAnimationDelegate MCKAnimationDelegateWithStopFinishedBlock:
     ^(CAAnimation *anim, BOOL flag) {
       // .. then remove the srcView
       NSLog(@"animation finished. removing view");

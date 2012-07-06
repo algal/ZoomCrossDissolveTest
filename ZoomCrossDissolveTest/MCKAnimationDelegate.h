@@ -16,7 +16,7 @@ typedef void (^didStopFinishedBlock_t) (CAAnimation*,BOOL);
 @interface MCKAnimationDelegate : NSObject
 @property (strong) didStopFinishedBlock_t animationDidStopFinishedBlock;
 
-+(MCKAnimationDelegate*) MCKAnimationDelegateHelperWithStopFinishedBlock:(didStopFinishedBlock_t)b;
++(MCKAnimationDelegate*) MCKAnimationDelegateWithStopFinishedBlock:(didStopFinishedBlock_t)b;
 
 -(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag;
 
