@@ -12,7 +12,7 @@
 @synthesize animationDidStopFinishedBlock;
 
 +(MCKAnimationDelegateHelper*) 
-MCKAnimationDelegateHelperWithStopFinishedBlock:(animationDidStopFinishedBlock_t)b {
+MCKAnimationDelegateHelperWithStopFinishedBlock:(didStopFinishedBlock_t)b {
   MCKAnimationDelegateHelper * x = [[MCKAnimationDelegateHelper alloc] init];
   x.animationDidStopFinishedBlock = b;
   return x;

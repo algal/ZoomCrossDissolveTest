@@ -11,12 +11,12 @@
 
 
 //typedef void (^animationDidStartBlock_t) (CAAnimation*);
-typedef void (^animationDidStopFinishedBlock_t) (CAAnimation*,BOOL);
+typedef void (^didStopFinishedBlock_t) (CAAnimation*,BOOL);
 
 @interface MCKAnimationDelegateHelper : NSObject
-@property (strong) animationDidStopFinishedBlock_t animationDidStopFinishedBlock;
+@property (strong) didStopFinishedBlock_t animationDidStopFinishedBlock;
 
-+(MCKAnimationDelegateHelper*) MCKAnimationDelegateHelperWithStopFinishedBlock:(animationDidStopFinishedBlock_t)b;
++(MCKAnimationDelegateHelper*) MCKAnimationDelegateHelperWithStopFinishedBlock:(didStopFinishedBlock_t)b;
 
 -(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag;
 
