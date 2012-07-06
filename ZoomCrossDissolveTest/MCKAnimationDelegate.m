@@ -6,14 +6,14 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "MCKAnimationDelegateHelper.h"
+#import "MCKAnimationDelegate.h"
 
-@implementation MCKAnimationDelegateHelper
+@implementation MCKAnimationDelegate
 @synthesize animationDidStopFinishedBlock;
 
-+(MCKAnimationDelegateHelper*) 
++(MCKAnimationDelegate*) 
 MCKAnimationDelegateHelperWithStopFinishedBlock:(didStopFinishedBlock_t)b {
-  MCKAnimationDelegateHelper * x = [[MCKAnimationDelegateHelper alloc] init];
+  MCKAnimationDelegate * x = [[MCKAnimationDelegate alloc] init];
   x.animationDidStopFinishedBlock = b;
   return x;
 }

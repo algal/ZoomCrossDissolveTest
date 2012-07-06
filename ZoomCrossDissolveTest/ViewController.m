@@ -11,7 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "CALayer+LayerDebugging.h"
-#import "MCKAnimationDelegateHelper.h"
+#import "MCKAnimationDelegate.h"
 
 #define ANIMATION_DURATION ((CFTimeInterval) 1.0)
 
@@ -297,7 +297,7 @@
   [[self class] zoomFadeLayer:srcView.layer 
                toSiblingLayer:destView.layer 
             animationDelegate:
-   [MCKAnimationDelegateHelper MCKAnimationDelegateHelperWithStopFinishedBlock:
+   [MCKAnimationDelegate MCKAnimationDelegateHelperWithStopFinishedBlock:
     ^(CAAnimation *anim, BOOL flag) {
       // .. then remove the srcView
       NSLog(@"animation finished. removing view");
