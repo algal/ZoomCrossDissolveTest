@@ -202,23 +202,29 @@
   return srcReplacementView;  
 }
 
-+(void)animateLayer:(CALayer*)startLayer 
-  toPositionAndBoundsOfLayer:(CALayer*)destLayer
++(void)                  animateLayer:(CALayer*)startLayer 
+toPositionAndBoundsAndContentsOfLayer:(CALayer*)destLayer
 {
   // start values
   CGPoint oldPos = startLayer.position;
   CGRect oldBounds = startLayer.bounds;
+  UIGraphicsBeginImageContextWithOptions(startLayer.bounds.size,NO,0.0);
+  [startLayer renderInContext:UIGraphicsGetCurrentContext()];
+  UIImage *oldImage = UIGraphicsGetImageFromCurrentImageContext();
 
   // new values
   CGPoint newPos = destLayer.position;
   CGRect newBounds = destLayer.bounds;
-  
+  UIGraphicsBeginImageContextWithOptions(destLayer.bounds.size,NO,0.0);
+  [destLayer renderInContext:UIGraphicsGetCurrentContext()];
+  UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+
   // preventing implicit animations from being generated everty time we change layer property values
   [CATransaction setDisableActions:YES];
   // change the layer property values to their new final values
   startLayer.position = newPos;
   startLayer.bounds = newBounds;
-//  startLayer.contents = (id) [toImage CGImage];
+  startLayer.contents = (id) [newImage CGImage];
   
   // now construct explicit animations..
   
@@ -233,17 +239,19 @@
   animBounds.fromValue = [NSValue valueWithCGRect:oldBounds];
   animBounds.toValue = [NSValue valueWithCGRect:newBounds];
   animBounds.duration = (CFTimeInterval) ANIMATION_DURATION;
-//  
-//  // animate image
-//  CABasicAnimation * animImage = [CABasicAnimation animationWithKeyPath:@"contents"];
-//  animImage.fromValue = (id)[oldImage CGImage];
-//  animImage.toValue   = (id)[newImage CGImage];
-//  animImage.duration  = (CFTimeInterval) ANIMATION_DURATION;
+  
+  // animate image
+  CABasicAnimation * animImage = [CABasicAnimation animationWithKeyPath:@"contents"];
+  animImage.fromValue = (id)[oldImage CGImage];
+  animImage.toValue   = (id)[newImage CGImage];
+  animImage.duration  = (CFTimeInterval) ANIMATION_DURATION;
   
   // collect the animations into one group (maybe unnecessary?)
   CAAnimationGroup * animationGroup = [[CAAnimationGroup alloc] init];
-  animationGroup.animations = [NSArray arrayWithObjects:animPos, animBounds,nil ];
-//                                                         , animImage,nil];
+  animationGroup.animations = [NSArray arrayWithObjects:animPos, 
+                               animBounds,
+                               animImage,
+                               nil ];
   animationGroup.duration = ANIMATION_DURATION;
   
   // add them to the layer.
@@ -268,7 +276,7 @@
   }
   
   [[self class] animateLayer:srcView.layer
-  toPositionAndBoundsOfLayer:destView.layer];
+  toPositionAndBoundsAndContentsOfLayer:destView.layer];
   
   return;
 }
@@ -301,7 +309,7 @@
 
 - (IBAction)viewDissolve:(id)sender {
   NSLog(@"beginning viewDissolve");
-  self.viewOne = [[self class] replaceView:self.viewOne]; // to work with a plain UIView
+//  self.viewOne = [[self class] replaceView:self.viewOne]; // to work with a plain UIView
   [[self class] zoomDissolveView:self.viewOne 
                           toView:self.viewTwo];
 }
