@@ -11,6 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "CALayer+LayerDebugging.h"
+#import "MCKAnimationDelegateHelper.h"
 
 #define ANIMATION_DURATION ((CFTimeInterval) 1.0)
 
@@ -202,8 +203,21 @@
   return srcReplacementView;  
 }
 
+/**
+  Zooming fade from one layer to another sharing a coordinate system.
+ 
+ @param startLayer
+ @param destLayer
+ 
+ Both layers are snapshotted. First layer is animated and mutated to new
+ values for position,bounds,contents. Layers can either be siblings under
+ the same UIView, or both the backing layers of sibling UIViews.
+ 
+ */
+
 +(void)                  zoomFadeLayer:(CALayer*)startLayer 
-toSiblingLayer:(CALayer*)destLayer
+                        toSiblingLayer:(CALayer*)destLayer
+                     animationDelegate:(id)aDelegate
 {
   // start values
   CGPoint oldPos = startLayer.position;
@@ -254,6 +268,11 @@ toSiblingLayer:(CALayer*)destLayer
                                nil ];
   animationGroup.duration = ANIMATION_DURATION;
   
+  if (aDelegate) {
+    NSLog(@"adding delegate object to animation group object");
+    animationGroup.delegate = aDelegate;
+  }
+  
   // add them to the layer.
   [startLayer addAnimation:animationGroup forKey:@"groupOfAnimation"];
 }
@@ -262,31 +281,32 @@ toSiblingLayer:(CALayer*)destLayer
  Performing a zooming cross dissolve of one
  view into the position of the other.
  
- Both views must have a common superview.
-
  Removes sourceView and replaces it with a blank
  view with its image. does animations on that view.
  */
 +(void) zoomDissolveView:(UIView*) srcView
                   toView:(UIView*)destView
 {
-//  if (srcView.superview != destView.superview) {
-//    NSLog(@"srcView and destView must share a superview");
-//    return;
-//  }
-  
   // make srcView a sibling of destView
-  CGRect newFrame = [srcView.superview convertRect:srcView.frame 
-                                            toView:destView.superview];
+  srcView.frame = [srcView.superview convertRect:srcView.frame 
+                                          toView:destView.superview];
   [srcView removeFromSuperview];
-  srcView.frame = newFrame;
   [destView.superview insertSubview:srcView aboveSubview:destView];
 
-  [[self class] zoomFadeLayer:srcView.layer toSiblingLayer:destView.layer];
-
+  // zoomfade via the layers ...
+  [[self class] zoomFadeLayer:srcView.layer 
+               toSiblingLayer:destView.layer 
+            animationDelegate:
+   [MCKAnimationDelegateHelper MCKAnimationDelegateHelperWithStopFinishedBlock:
+    ^(CAAnimation *anim, BOOL flag) {
+      // .. then remove the srcView
+      NSLog(@"animation finished. removing view");
+      [srcView removeFromSuperview];
+      return;
+    }]];
+  
   return;
 }
-
 
 #pragma mark actions
 
@@ -316,8 +336,7 @@ toSiblingLayer:(CALayer*)destLayer
 - (IBAction)viewDissolve:(id)sender {
   NSLog(@"beginning viewDissolve");
 //  self.viewOne = [[self class] replaceView:self.viewOne]; // to work with a plain UIView
-  [[self class] zoomDissolveView:self.viewOne 
-                          toView:self.viewTwo];
+  [[self class] zoomDissolveView:self.viewOne toView:self.viewTwo];
 }
 
 - (IBAction)mutateAnchorPoint:(id)sender {

@@ -165,7 +165,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="o2_150x201.jpg" id="DZ2-l2-dEK">
-                                        <rect key="frame" x="0.0" y="0.0" width="250" height="205"/>
+                                        <rect key="frame" x="29" y="0.0" width="250" height="205"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
