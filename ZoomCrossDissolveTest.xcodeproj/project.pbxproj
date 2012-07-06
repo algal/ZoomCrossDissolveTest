@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5E269ABA15A5D3410055BEFB /* CALayer+LayerDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E269AB915A5D2360055BEFB /* CALayer+LayerDebugging.m */; };
 		5E269ABD15A743EB0055BEFB /* MCKAnimationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E269ABC15A743EB0055BEFB /* MCKAnimationDelegate.m */; };
+		5E269ACC15A74C4E0055BEFB /* MCKAnimations.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E269ACB15A74C4E0055BEFB /* MCKAnimations.m */; };
 		5E984F5715177F1A00AFED27 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E984F5615177F1A00AFED27 /* UIKit.framework */; };
 		5E984F5915177F1A00AFED27 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E984F5815177F1A00AFED27 /* Foundation.framework */; };
 		5E984F5B15177F1A00AFED27 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E984F5A15177F1A00AFED27 /* CoreGraphics.framework */; };
@@ -30,8 +31,10 @@
 /* Begin PBXFileReference section */
 		5E269AB815A5D2360055BEFB /* CALayer+LayerDebugging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CALayer+LayerDebugging.h"; sourceTree = "<group>"; };
 		5E269AB915A5D2360055BEFB /* CALayer+LayerDebugging.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CALayer+LayerDebugging.m"; sourceTree = "<group>"; };
-		5E269ABB15A743EB0055BEFB /* MCKAnimationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; path = MCKAnimationDelegate.h; sourceTree = "<group>"; };
+		5E269ABB15A743EB0055BEFB /* MCKAnimationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKAnimationDelegate.h; sourceTree = "<group>"; };
 		5E269ABC15A743EB0055BEFB /* MCKAnimationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKAnimationDelegate.m; sourceTree = "<group>"; };
+		5E269ACA15A74C4E0055BEFB /* MCKAnimations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKAnimations.h; sourceTree = "<group>"; };
+		5E269ACB15A74C4E0055BEFB /* MCKAnimations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKAnimations.m; sourceTree = "<group>"; };
 		5E984F5215177F1A00AFED27 /* ZoomCrossDissolveTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZoomCrossDissolveTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E984F5615177F1A00AFED27 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5E984F5815177F1A00AFED27 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -128,6 +131,8 @@
 				5E984F5D15177F1A00AFED27 /* Supporting Files */,
 				5E269ABB15A743EB0055BEFB /* MCKAnimationDelegate.h */,
 				5E269ABC15A743EB0055BEFB /* MCKAnimationDelegate.m */,
+				5E269ACA15A74C4E0055BEFB /* MCKAnimations.h */,
+				5E269ACB15A74C4E0055BEFB /* MCKAnimations.m */,
 			);
 			path = ZoomCrossDissolveTest;
 			sourceTree = "<group>";
@@ -243,6 +248,7 @@
 				5EFFBB45159DD6C3004E6084 /* DCIntrospect.m in Sources */,
 				5EFFBB46159DD6C3004E6084 /* DCStatusBarOverlay.m in Sources */,
 				5E269ABD15A743EB0055BEFB /* MCKAnimationDelegate.m in Sources */,
+				5E269ACC15A74C4E0055BEFB /* MCKAnimations.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
