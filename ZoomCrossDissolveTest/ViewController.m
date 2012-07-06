@@ -202,8 +202,8 @@
   return srcReplacementView;  
 }
 
-+(void)                  animateLayer:(CALayer*)startLayer 
-toPositionAndBoundsAndContentsOfLayer:(CALayer*)destLayer
++(void)                  zoomFadeLayer:(CALayer*)startLayer 
+toSiblingLayer:(CALayer*)destLayer
 {
   // start values
   CGPoint oldPos = startLayer.position;
@@ -270,14 +270,20 @@ toPositionAndBoundsAndContentsOfLayer:(CALayer*)destLayer
 +(void) zoomDissolveView:(UIView*) srcView
                   toView:(UIView*)destView
 {
-  if (srcView.superview != destView.superview) {
-    NSLog(@"srcView and destView must share a superview");
-    return;
-  }
+//  if (srcView.superview != destView.superview) {
+//    NSLog(@"srcView and destView must share a superview");
+//    return;
+//  }
   
-  [[self class] animateLayer:srcView.layer
-  toPositionAndBoundsAndContentsOfLayer:destView.layer];
-  
+  // make srcView a sibling of destView
+  CGRect newFrame = [srcView.superview convertRect:srcView.frame 
+                                            toView:destView.superview];
+  [srcView removeFromSuperview];
+  srcView.frame = newFrame;
+  [destView.superview insertSubview:srcView aboveSubview:destView];
+
+  [[self class] zoomFadeLayer:srcView.layer toSiblingLayer:destView.layer];
+
   return;
 }
 
