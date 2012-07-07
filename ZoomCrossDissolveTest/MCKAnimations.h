@@ -40,12 +40,22 @@
 /**
  Performing a zooming fade of one into another, removing the former.
  */
-+(void) destrucitvelyZoomFadeView:(UIView*) srcView
++(void) destructivelyZoomFadeView:(UIView*) srcView
                            toView:(UIView*)destView;
 
 
 // utilities
 +(UIImage*) imageFromLayer:(CALayer*) aLayer;
 +(void) saveImageToDisk:(UIImage*)anImage;
+
+/**  Snapshots shifting view outside its superview */
++ (UIImage*)imageFromViewShiftedOutsideSuperview:(UIView*)v;
+
+/** Snapshots shifting view offscreen and into UIWindow */
++ (UIImage*)imageFromViewShiftedOutsideWindow:(UIView*)v;
+
+/**  Snapshots shifting view offscreen */
++(UIImage*) imageFromViewShiftedOffscreen:(UIView*)v;
+
 
 @end

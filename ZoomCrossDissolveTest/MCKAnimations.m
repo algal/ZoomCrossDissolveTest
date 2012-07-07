@@ -133,7 +133,7 @@
  cross-dissolving contents. 
  
  */
-+(void) destrucitvelyZoomFadeView:(UIView*) srcView
++(void) destructivelyZoomFadeView:(UIView*) srcView
                            toView:(UIView*)destView
 {
   // replace srcView with its image
@@ -186,6 +186,98 @@
   [imgData writeToFile:pngPath atomically:YES];
   NSLog(@"wrote image to file %@",pngPath);
   return;
+}
+
+
+/*
+ Shifts view offscreen for snapshotting
+ */
++ (UIImage*)imageFromViewShiftedOutsideSuperview:(UIView*)v {
+  UIImage * snapshot;
+  if (v.hidden == NO) {
+    snapshot = [MCKAnimations imageFromLayer:v.layer];
+  } 
+  else {
+    // offset to outside the superview
+    CGRect oldFrame = v.frame;
+    
+    v.frame = CGRectStandardize(
+                                CGRectMake(0.0f - CGRectGetWidth(v.frame), 
+                                           CGRectGetMinY(v.frame), 
+                                           CGRectGetWidth(v.frame), 
+                                           CGRectGetHeight(v.frame))
+                                );
+    v.hidden = NO; // unhide it
+    snapshot = [MCKAnimations imageFromLayer:v.layer]; 
+    // restore
+    v.hidden = YES;
+    v.frame = oldFrame;
+  }
+  return snapshot;
+}
+
+/*
+ Shifts view offscreen and swaps view into UIWIndow  for snapshotting
+ */
++ (UIImage*)imageFromViewShiftedOutsideWindow:(UIView*)v {
+  UIImage * snapshot;
+  if (v.hidden == NO) {
+    snapshot = [MCKAnimations imageFromLayer:v.layer];
+  } 
+  else {
+    // cache view's hidden, frame, and slot in view hierarchy
+    BOOL oldHidden = v.hidden;
+    CGRect oldFrame = v.frame;
+    UIView * oldSuperview = v.superview;
+    NSUInteger oldSubviewIndex = [v.superview.subviews indexOfObject:v];
+    
+    // remove and insert into UIWindow, offscren
+    UIWindow * win = [[UIApplication sharedApplication] keyWindow];
+    [v removeFromSuperview];
+    v.frame = CGRectOffset(v.frame, 0.0f - CGRectGetWidth(v.frame), 0);
+    [win addSubview:v];
+    // reveal and snapshot
+    v.hidden = NO;
+    snapshot = [MCKAnimations imageFromLayer:v.layer];
+    
+    // restore 
+    [v removeFromSuperview];
+    v.frame = oldFrame;
+    [oldSuperview insertSubview:v atIndex:oldSubviewIndex];
+    v.hidden = oldHidden;
+  }
+  return snapshot;
+}
+
+/*
+ Shifts view offscreen for snapshotting
+ */
++(UIImage*) imageFromViewShiftedOffscreen:(UIView*)v {
+  UIImage * snapshot;
+  if (v.hidden == NO) {
+    snapshot = [MCKAnimations imageFromLayer:v.layer];
+  } 
+  else {
+    // cache view's hidden, frame, and slot in view hierarchy
+    BOOL oldHidden = v.hidden;
+    CGRect oldFrame = v.frame;
+    
+    // offset offscreen (outside bounds of the UIWindow)
+    UIView * win = [[UIApplication sharedApplication] keyWindow];
+    CGRect frameInWinCoords = [win convertRect:v.frame fromView:v.superview];
+    frameInWinCoords = CGRectOffset(frameInWinCoords, 
+                                    0.0f - CGRectGetWidth(frameInWinCoords), 0);
+    v.frame = [v.superview convertRect:frameInWinCoords fromView:win];
+    
+    // reveal and snapshot
+    v.hidden = NO;
+    snapshot = [MCKAnimations imageFromLayer:v.layer];
+    
+    // restore 
+    v.frame = oldFrame;
+    v.hidden = oldHidden;
+  }
+  return snapshot;
 }
 
 @end
