@@ -12,12 +12,29 @@
 @interface MCKAnimations : NSObject
 
 /**
+ Zoomfades from one view to a hidden view, removing the former.
+ 
+ @param srcView starting view, to be removed after animation
+ @param destView (hidden) view representing new appearance
+ 
+ Performs a morph (i.e., shape tween) from srcView to destView by 
+ animating position, bounds, and contents. The views do not need to be
+ siblings, as the method will add srcView as a destView sibling before
+ executing the animation. As a result, it may be necessary to ensure
+ destView.superview.clipsToBounds==NO, for the correct effect.
+ */
++(void) destructivelyZoomFadeView:(UIView*) srcView
+                           toView:(UIView*)destView;
+
+
+#pragma mark utilities
+
+/**
  Replaces originalView with a plain UIView holding a snapshot.
  
  @param originalView view to be replaced
  @return replacement view
  */
-
 +(UIView*) replaceView:(UIView*)originalView;
 
 /**
@@ -37,29 +54,16 @@
        toSiblingLayer:(CALayer*)destLayer
     animationDelegate:(id)aDelegate;
 
-/**
- Zoomfades from one view to a hidden view, removing the former.
- 
- @param srcView starting view, to be removed after animation
- @param destView (hidden) view representing new appearance
- 
- Performs a morph (i.e., shape tween) from srcView to destView by 
- animating position, bounds, and contents. The views do not need to be
- siblings, as the method will add srcView as a destView sibling before
- executing the animation. As a result, it may be necessary to ensure
- destView.superview.clipsToBounds==NO, for the correct effect.
- */
-+(void) destructivelyZoomFadeView:(UIView*) srcView
-                           toView:(UIView*)destView;
 
 
-/** snapshot layer to UIImage */
+#pragma mark snapshotters
+
+/** simple snapshot (fails for hidden views) */
 +(UIImage*) imageFromLayer:(CALayer*) aLayer;
 
-//
 // snapshot hidden views, with various heoric measures to 
 // to prevent the hidden view from being briefly visible
-//
+// (first try just unhide/hiding the view)
 /** Snapshot, shifting view outside its superview */
 + (UIImage*)imageFromViewShiftedOutsideSuperview:(UIView*)v;
 
@@ -70,5 +74,6 @@
 + (UIImage*)imageFromViewShiftedOutsideWindow:(UIView*)v;
 
 +(void) saveImageToDisk:(UIImage*)anImage;
+
 
 @end

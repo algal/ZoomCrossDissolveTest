@@ -11,8 +11,6 @@
 
 #define ANIMATION_DURATION ((NSTimeInterval) 0.5)
 
-
-
 @implementation MCKAnimations
 
 /**
