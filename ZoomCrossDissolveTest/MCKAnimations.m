@@ -27,10 +27,7 @@
 {
   UIView * srcView = originalView;
   // snapshot srcView
-  UIGraphicsBeginImageContextWithOptions(srcView.layer.bounds.size,NO,0.0);
-  [srcView.layer renderInContext:UIGraphicsGetCurrentContext()];
-  UIImage *oldImage = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndPDFContext();
+  UIImage * oldImage = [[self class] imageFromLayer:srcView.layer];
   // assign its image to a replacement view
   UIView * srcReplacementView = [[UIView alloc] initWithFrame:srcView.frame];
   srcReplacementView.layer.contents = (id) [oldImage CGImage];
@@ -63,18 +60,12 @@
   // start values
   CGPoint oldPos = startLayer.position;
   CGRect oldBounds = startLayer.bounds;
-  UIGraphicsBeginImageContextWithOptions(startLayer.bounds.size,NO,0.0);
-  [startLayer renderInContext:UIGraphicsGetCurrentContext()];
-  UIImage *oldImage = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
+  UIImage * oldImage = [[self class] imageFromLayer:startLayer];
   
   // new values
   CGPoint newPos = destLayer.position;
   CGRect newBounds = destLayer.bounds;
-  UIGraphicsBeginImageContextWithOptions(destLayer.bounds.size,NO,0.0);
-  [destLayer renderInContext:UIGraphicsGetCurrentContext()];
-  UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
+  UIImage * newImage = [[self class] imageFromLayer:destLayer];
   
   // preventing implicit animations every time we change layer property values
   [CATransaction setDisableActions:YES];
