@@ -44,5 +44,8 @@
                            toView:(UIView*)destView;
 
 
+// utilities
++(UIImage*) imageFromLayer:(CALayer*) aLayer;
++(void) saveImageToDisk:(UIImage*)anImage;
 
 @end

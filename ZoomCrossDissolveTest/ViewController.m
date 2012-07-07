@@ -248,4 +248,29 @@
   
 }
 
+- (IBAction)saveEvenHiddenViewTwoSnapshot:(id)sender {
+  UIView * v = self.viewTwo;
+
+  UIImage * snapshot;
+  if (v.hidden == NO) {
+    snapshot = [MCKAnimations imageFromLayer:v.layer];
+  } 
+  else {
+    // offset to outside the superview, which is outside the screen.
+    CGRect oldFrame = v.frame;
+    v.frame = CGRectStandardize(
+                                CGRectMake(0.0f - CGRectGetWidth(v.frame), 
+                                           CGRectGetMinY(v.frame), 
+                                           CGRectGetWidth(v.frame), 
+                                           CGRectGetHeight(v.frame))
+                                );
+    v.hidden = NO; // unhide it
+    snapshot = [MCKAnimations imageFromLayer:v.layer]; 
+    // restore
+    v.hidden = YES;
+    v.frame = oldFrame;
+  }
+  [MCKAnimations saveImageToDisk:snapshot];
+}
+
 @end

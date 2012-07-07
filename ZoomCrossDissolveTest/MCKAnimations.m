@@ -11,6 +11,8 @@
 
 #define ANIMATION_DURATION ((NSTimeInterval) 0.5)
 
+
+
 @implementation MCKAnimations
 
 /**
@@ -30,6 +32,7 @@
   UIGraphicsBeginImageContextWithOptions(srcView.layer.bounds.size,NO,0.0);
   [srcView.layer renderInContext:UIGraphicsGetCurrentContext()];
   UIImage *oldImage = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndPDFContext();
   // assign its image to a replacement view
   UIView * srcReplacementView = [[UIView alloc] initWithFrame:srcView.frame];
   srcReplacementView.layer.contents = (id) [oldImage CGImage];
@@ -143,6 +146,7 @@
   [srcView removeFromSuperview];
   [destView.superview insertSubview:srcView aboveSubview:destView];
   
+  destView.hidden = NO;
   // zoomfade via the layers ...
   [[self class] zoomFadeLayer:srcView.layer 
                toSiblingLayer:destView.layer 
@@ -150,7 +154,7 @@
    [MCKAnimationDelegate 
     MCKAnimationDelegateWithDidStartBlock:^(CAAnimation *anim) {
       NSLog(@"animation starting");
-//      destView.hidden = YES;
+      destView.hidden = YES;
       return;
     } 
     DidStopFinishedBlock:^(CAAnimation *anim, BOOL f) {
@@ -162,6 +166,24 @@
     }]
    ];
   
+  return;
+}
+
++(UIImage*) imageFromLayer:(CALayer*) aLayer {
+  UIGraphicsBeginImageContextWithOptions(aLayer.bounds.size,NO,0.0);
+  [aLayer renderInContext:UIGraphicsGetCurrentContext()];
+  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndPDFContext();
+  return image;
+}
+
++(void) saveImageToDisk:(UIImage*)anImage 
+{  
+  NSString * sandboxDirectory = NSHomeDirectory();
+  NSString * pngPath = [sandboxDirectory stringByAppendingPathComponent:@"Documents/Test.jpg"];
+  NSData *imgData = UIImagePNGRepresentation(anImage);
+  [imgData writeToFile:pngPath atomically:YES];
+  NSLog(@"wrote image to file %@",pngPath);
   return;
 }
 
