@@ -201,7 +201,7 @@
 		5E984F4915177F1A00AFED27 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = 5E984F4C15177F1A00AFED27 /* Build configuration list for PBXProject "ZoomCrossDissolveTest" */;
 			compatibilityVersion = "Xcode 3.2";

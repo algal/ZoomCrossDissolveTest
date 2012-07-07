@@ -9,17 +9,29 @@
 #import "MCKAnimationDelegate.h"
 
 @implementation MCKAnimationDelegate
-@synthesize animationDidStopFinishedBlock;
+@synthesize animationDidStopFinishedBlock = _animationDidStopFinishedBlock;
+@synthesize animationDidStartBlock = _animationDidStartBlock;
 
 +(MCKAnimationDelegate*) 
-MCKAnimationDelegateWithStopFinishedBlock:(didStopFinishedBlock_t)b {
+MCKAnimationDelegateWithDidStopFinishedBlock:(didStopFinishedBlock_t)b {
   MCKAnimationDelegate * x = [[MCKAnimationDelegate alloc] init];
   x.animationDidStopFinishedBlock = b;
   return x;
 }
 
--(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
++(MCKAnimationDelegate*) MCKAnimationDelegateWithDidStartBlock:(didStartBlock_t)startBlock
+                                          DidStopFinishedBlock:(didStopFinishedBlock_t)stopBlock
 {
-  animationDidStopFinishedBlock(anim,flag);
+  MCKAnimationDelegate * x = [[MCKAnimationDelegate alloc] init];
+  x.animationDidStartBlock = startBlock;
+  x.animationDidStopFinishedBlock = stopBlock;
+  return x;
+}
+
+-(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
+  _animationDidStopFinishedBlock(anim,flag);
+}
+-(void)animationDidStart:(CAAnimation *)anim {
+  _animationDidStartBlock(anim);
 }
 @end

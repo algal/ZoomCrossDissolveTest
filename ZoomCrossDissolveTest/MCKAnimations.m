@@ -18,6 +18,9 @@
  
  @param originalView view to be replaced
  @return replacement view
+ 
+ TODO: Look into using shouldRasterize instead of manual snapshotting.
+ 
  */
 
 +(UIView*) replaceView:(UIView*)originalView
@@ -48,6 +51,8 @@
  values for position,bounds,contents. Layers can be either siblings in a layer 
  hierarchy, or the backing layers of sibling UIViews.
  
+ TODO: Look into using shouldRasterize instead of manual snapshotting.
+ 
  */
 
 +(void) zoomFadeLayer:(CALayer*)startLayer 
@@ -60,6 +65,7 @@
   UIGraphicsBeginImageContextWithOptions(startLayer.bounds.size,NO,0.0);
   [startLayer renderInContext:UIGraphicsGetCurrentContext()];
   UIImage *oldImage = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
   
   // new values
   CGPoint newPos = destLayer.position;
@@ -67,6 +73,7 @@
   UIGraphicsBeginImageContextWithOptions(destLayer.bounds.size,NO,0.0);
   [destLayer renderInContext:UIGraphicsGetCurrentContext()];
   UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
   
   // preventing implicit animations every time we change layer property values
   [CATransaction setDisableActions:YES];
@@ -113,11 +120,23 @@
 }
 
 /**
- Performing a zooming fade of one into another, removing the former.
+ Zoom-fades one view into another, removing the former, revealing the latter.
+ 
+ @param srcView view to be zoomed, cross-dissolved into destView, and removed.
+ @param destView hidden view to be revealed as srcView has zoom-fades into it.
+ 
+ Creates the illusion of srcView continuously transforming into destView, by
+ "zoom-fading" -- i.e., simultaneously animation position and bounds while
+ cross-dissolving contents. 
+ 
  */
-+(void) zoomDissolveView:(UIView*) srcView
-                  toView:(UIView*)destView
++(void) destrucitvelyZoomFadeView:(UIView*) srcView
+                           toView:(UIView*)destView
 {
+  // replace srcView with its image
+  /* (since we don't want indirectly to animate UIView properties */
+  srcView = [[self class] replaceView:srcView];
+  
   // make srcView a sibling of destView
   srcView.frame = [srcView.superview convertRect:srcView.frame 
                                           toView:destView.superview];
@@ -128,13 +147,20 @@
   [[self class] zoomFadeLayer:srcView.layer 
                toSiblingLayer:destView.layer 
             animationDelegate:
-   [MCKAnimationDelegate MCKAnimationDelegateWithStopFinishedBlock:
-    ^(CAAnimation *anim, BOOL flag) {
+   [MCKAnimationDelegate 
+    MCKAnimationDelegateWithDidStartBlock:^(CAAnimation *anim) {
+      NSLog(@"animation starting");
+//      destView.hidden = YES;
+      return;
+    } 
+    DidStopFinishedBlock:^(CAAnimation *anim, BOOL f) {
       // .. then remove the srcView
       NSLog(@"animation finished. removing view");
+      destView.hidden = NO;
       [srcView removeFromSuperview];
       return;
-    }]];
+    }]
+   ];
   
   return;
 }

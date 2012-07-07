@@ -206,7 +206,7 @@
 
 - (IBAction)viewDissolve:(id)sender {
   NSLog(@"beginning viewDissolve");
-  [MCKAnimations zoomDissolveView:self.viewOne toView:self.viewTwo];
+  [MCKAnimations destrucitvelyZoomFadeView:self.viewOne toView:self.viewTwo];
 }
 
 - (IBAction)mutateAnchorPoint:(id)sender {

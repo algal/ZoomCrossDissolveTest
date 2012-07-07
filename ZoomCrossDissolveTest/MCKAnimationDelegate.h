@@ -10,11 +10,12 @@
 #import <QuartzCore/QuartzCore.h>
 
 
-//typedef void (^animationDidStartBlock_t) (CAAnimation*);
+typedef void (^didStartBlock_t) (CAAnimation*);
 typedef void (^didStopFinishedBlock_t) (CAAnimation*,BOOL);
 
 @interface MCKAnimationDelegate : NSObject
 @property (strong) didStopFinishedBlock_t animationDidStopFinishedBlock;
+@property (strong) didStartBlock_t animationDidStartBlock;
 
 /**
  Returns fresh object implementing applicationDidStop:finished:
@@ -23,7 +24,18 @@ typedef void (^didStopFinishedBlock_t) (CAAnimation*,BOOL);
  @return MCKAnimationDelegate object, a delegate for a CAAnimation
  
  */
-+(MCKAnimationDelegate*) MCKAnimationDelegateWithStopFinishedBlock:(didStopFinishedBlock_t)aBlock;
++(MCKAnimationDelegate*) MCKAnimationDelegateWithDidStopFinishedBlock:(didStopFinishedBlock_t)aBlock;
+
+/**
+ Returns fresh object implementing applicationDidStop:finished:
+ 
+ @param aBlock block implementing of the method
+ @return MCKAnimationDelegate object, a delegate for a CAAnimation
+ 
+ */
++(MCKAnimationDelegate*) MCKAnimationDelegateWithDidStartBlock:(didStartBlock_t)startBlock
+                                          DidStopFinishedBlock:(didStopFinishedBlock_t)stopBlock;
+
 
 -(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag;
 

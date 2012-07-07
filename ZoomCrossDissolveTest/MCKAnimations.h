@@ -40,8 +40,8 @@
 /**
  Performing a zooming fade of one into another, removing the former.
  */
-+(void) zoomDissolveView:(UIView*) srcView
-                  toView:(UIView*)destView;
++(void) destrucitvelyZoomFadeView:(UIView*) srcView
+                           toView:(UIView*)destView;
 
 
 
