@@ -169,6 +169,7 @@
   return;
 }
 
+/** Snapshot */
 +(UIImage*) imageFromLayer:(CALayer*) aLayer {
   UIGraphicsBeginImageContextWithOptions(aLayer.bounds.size,NO,0.0);
   [aLayer renderInContext:UIGraphicsGetCurrentContext()];
