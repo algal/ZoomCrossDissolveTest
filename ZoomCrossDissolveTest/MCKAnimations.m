@@ -174,7 +174,7 @@
   UIGraphicsBeginImageContextWithOptions(aLayer.bounds.size,NO,0.0);
   [aLayer renderInContext:UIGraphicsGetCurrentContext()];
   UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndPDFContext();
+  UIGraphicsEndImageContext();
   return image;
 }
 
