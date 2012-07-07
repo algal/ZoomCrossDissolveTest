@@ -44,8 +44,10 @@
  @param destView (hidden) view representing new appearance
  
  Performs a morph (i.e., shape tween) from srcView to destView by 
- animating position, bounds, and contents.
- 
+ animating position, bounds, and contents. The views do not need to be
+ siblings, as the method will add srcView as a destView sibling before
+ executing the animation. As a result, it may be necessary to ensure
+ destView.superview.clipsToBounds==NO, for the correct effect.
  */
 +(void) destructivelyZoomFadeView:(UIView*) srcView
                            toView:(UIView*)destView;
@@ -55,17 +57,17 @@
 +(UIImage*) imageFromLayer:(CALayer*) aLayer;
 
 //
-// snapshot hidden views with elaborate measures to 
-// to prevent them ever becoming visible
+// snapshot hidden views, with various heoric measures to 
+// to prevent the hidden view from being briefly visible
 //
 /** Snapshot, shifting view outside its superview */
 + (UIImage*)imageFromViewShiftedOutsideSuperview:(UIView*)v;
 
-/** Snapshot, shifting view offscreen and into UIWindow */
-+ (UIImage*)imageFromViewShiftedOutsideWindow:(UIView*)v;
-
 /** Snapshot, shifting view offscreen */
 +(UIImage*) imageFromViewShiftedOffscreen:(UIView*)v;
+
+/** Snapshot, shifting view offscreen and into UIWindow */
++ (UIImage*)imageFromViewShiftedOutsideWindow:(UIView*)v;
 
 +(void) saveImageToDisk:(UIImage*)anImage;
 
