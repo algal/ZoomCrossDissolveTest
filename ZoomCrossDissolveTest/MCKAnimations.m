@@ -122,17 +122,6 @@
   [startLayer addAnimation:animationGroup forKey:@"groupOfAnimation"];
 }
 
-/**
- Zoom-fades one view into another, removing the former, revealing the latter.
- 
- @param srcView view to be zoomed, cross-dissolved into destView, and removed.
- @param destView hidden view to be revealed as srcView has zoom-fades into it.
- 
- Creates the illusion of srcView continuously transforming into destView, by
- "zoom-fading" -- i.e., simultaneously animation position and bounds while
- cross-dissolving contents. 
- 
- */
 +(void) destructivelyZoomFadeView:(UIView*) srcView
                            toView:(UIView*)destView
 {
@@ -147,27 +136,85 @@
   [destView.superview insertSubview:srcView aboveSubview:destView];
   
   destView.hidden = NO;
-  // zoomfade via the layers ...
-  [[self class] zoomFadeLayer:srcView.layer 
-               toSiblingLayer:destView.layer 
-            animationDelegate:
-   [MCKAnimationDelegate 
-    MCKAnimationDelegateWithDidStartBlock:^(CAAnimation *anim) {
-      NSLog(@"animation starting");
-      destView.hidden = YES;
-      return;
-    } 
-    DidStopFinishedBlock:^(CAAnimation *anim, BOOL f) {
-      // .. then remove the srcView
-      NSLog(@"animation finished. removing view");
-      destView.hidden = NO;
-      [srcView removeFromSuperview];
-      return;
-    }]
-   ];
+  UIImage * newImage = [[self class] imageFromLayer:destView.layer];
+  destView.hidden = YES;
+  
+  CALayer * startLayer = srcView.layer;
+  CALayer * destLayer = destView.layer;
+  //  id aDelegate = nil;
+  id aDelegate = [MCKAnimationDelegate 
+                  MCKAnimationDelegateWithDidStartBlock:^(CAAnimation *anim) {
+                    NSLog(@"animation starting");
+                    destView.hidden = YES;
+                    return;
+                  } 
+                  DidStopFinishedBlock:^(CAAnimation *anim, BOOL f) {
+                    // .. then remove the srcView
+                    NSLog(@"animation finished. removing view");
+                    destView.hidden = NO;
+                    [srcView removeFromSuperview];
+                    return;
+                  }];
+  //
+  
+  // start values
+  CGPoint oldPos = startLayer.position;
+  CGRect oldBounds = startLayer.bounds;
+  UIImage *oldImage = [[self class] imageFromLayer:startLayer];
+  
+  // new values
+  CGPoint newPos = destLayer.position;
+  CGRect newBounds = destLayer.bounds;
+  
+  
+  // preventing implicit animations every time we change layer property values
+  [CATransaction setDisableActions:YES];
+  // change the layer property values to their new final values
+  startLayer.position = newPos;
+  startLayer.bounds = newBounds;
+  startLayer.contents = (id) [newImage CGImage];
+  
+  // now construct explicit animations..
+  
+  // animate position
+  CABasicAnimation * animPos = [CABasicAnimation animationWithKeyPath:@"position"];
+  animPos.fromValue = [NSValue valueWithCGPoint:oldPos];
+  animPos.toValue   = [NSValue valueWithCGPoint:newPos];
+  animPos.duration  = (CFTimeInterval) ANIMATION_DURATION;
+  
+  // animate bounds
+  CABasicAnimation * animBounds = [CABasicAnimation animationWithKeyPath:@"bounds"];
+  animBounds.fromValue = [NSValue valueWithCGRect:oldBounds];
+  animBounds.toValue = [NSValue valueWithCGRect:newBounds];
+  animBounds.duration = (CFTimeInterval) ANIMATION_DURATION;
+  
+  // animate image
+  CABasicAnimation * animImage = [CABasicAnimation animationWithKeyPath:@"contents"];
+  animImage.fromValue = (id)[oldImage CGImage];
+  animImage.toValue   = (id)[newImage CGImage];
+  animImage.duration  = (CFTimeInterval) ANIMATION_DURATION;
+  
+  // collect the animations into one group (maybe unnecessary?)
+  CAAnimationGroup * animationGroup = [[CAAnimationGroup alloc] init];
+  animationGroup.animations = [NSArray arrayWithObjects:animPos, 
+                               animBounds,
+                               animImage,
+                               nil ];
+  animationGroup.duration = ANIMATION_DURATION;
+  
+  if (aDelegate) {
+    NSLog(@"adding delegate object to animation group object");
+    animationGroup.delegate = aDelegate;
+  }
+  
+  // add them to the layer.
+  [startLayer addAnimation:animationGroup forKey:@"groupOfAnimation"];
   
   return;
 }
+
+
+#pragma mark snapshotters
 
 /** Snapshot */
 +(UIImage*) imageFromLayer:(CALayer*) aLayer {
@@ -178,20 +225,7 @@
   return image;
 }
 
-+(void) saveImageToDisk:(UIImage*)anImage 
-{  
-  NSString * sandboxDirectory = NSHomeDirectory();
-  NSString * pngPath = [sandboxDirectory stringByAppendingPathComponent:@"Documents/Test.jpg"];
-  NSData *imgData = UIImagePNGRepresentation(anImage);
-  [imgData writeToFile:pngPath atomically:YES];
-  NSLog(@"wrote image to file %@",pngPath);
-  return;
-}
 
-
-/*
- Shifts view offscreen for snapshotting
- */
 + (UIImage*)imageFromViewShiftedOutsideSuperview:(UIView*)v {
   UIImage * snapshot;
   if (v.hidden == NO) {
@@ -216,9 +250,6 @@
   return snapshot;
 }
 
-/*
- Shifts view offscreen and swaps view into UIWIndow  for snapshotting
- */
 + (UIImage*)imageFromViewShiftedOutsideWindow:(UIView*)v {
   UIImage * snapshot;
   if (v.hidden == NO) {
@@ -249,9 +280,6 @@
   return snapshot;
 }
 
-/*
- Shifts view offscreen for snapshotting
- */
 +(UIImage*) imageFromViewShiftedOffscreen:(UIView*)v {
   UIImage * snapshot;
   if (v.hidden == NO) {
@@ -279,5 +307,16 @@
   }
   return snapshot;
 }
+
++(void) saveImageToDisk:(UIImage*)anImage 
+{  
+  NSString * sandboxDirectory = NSHomeDirectory();
+  NSString * pngPath = [sandboxDirectory stringByAppendingPathComponent:@"Documents/Test.jpg"];
+  NSData *imgData = UIImagePNGRepresentation(anImage);
+  [imgData writeToFile:pngPath atomically:YES];
+  NSLog(@"wrote image to file %@",pngPath);
+  return;
+}
+
 
 @end

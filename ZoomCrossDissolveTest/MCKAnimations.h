@@ -38,24 +38,35 @@
     animationDelegate:(id)aDelegate;
 
 /**
- Performing a zooming fade of one into another, removing the former.
+ Zoomfades from one view to a hidden view, removing the former.
+ 
+ @param srcView starting view, to be removed after animation
+ @param destView (hidden) view representing new appearance
+ 
+ Performs a morph (i.e., shape tween) from srcView to destView by 
+ animating position, bounds, and contents.
+ 
  */
 +(void) destructivelyZoomFadeView:(UIView*) srcView
                            toView:(UIView*)destView;
 
 
-// utilities
+/** snapshot layer to UIImage */
 +(UIImage*) imageFromLayer:(CALayer*) aLayer;
-+(void) saveImageToDisk:(UIImage*)anImage;
 
-/**  Snapshots shifting view outside its superview */
+//
+// snapshot hidden views with elaborate measures to 
+// to prevent them ever becoming visible
+//
+/** Snapshot, shifting view outside its superview */
 + (UIImage*)imageFromViewShiftedOutsideSuperview:(UIView*)v;
 
-/** Snapshots shifting view offscreen and into UIWindow */
+/** Snapshot, shifting view offscreen and into UIWindow */
 + (UIImage*)imageFromViewShiftedOutsideWindow:(UIView*)v;
 
-/**  Snapshots shifting view offscreen */
+/** Snapshot, shifting view offscreen */
 +(UIImage*) imageFromViewShiftedOffscreen:(UIView*)v;
 
++(void) saveImageToDisk:(UIImage*)anImage;
 
 @end
